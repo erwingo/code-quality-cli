@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { validateUnderscoreCssFolder } = require('../../dirChecker');
+const { validateUnderscoreCssFolder } = require('../../folderChecker');
 const path = require('path');
 
 describe('_css folder', () => {
