@@ -1,7 +1,7 @@
 {
   "name": "code-quality-cli",
   "version": "0.0.1",
-  "description": "\"Code quality cli tools that will help you to keep your code organized and clean.\"",
+  "description": "Code quality cli tools that will help you to keep your code organized and clean.",
   "main": "index.js",
   "scripts": {
     "test": "mocha ./src/**/_tests/index.js"
