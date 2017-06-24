@@ -3,14 +3,14 @@ const nodeHelpers = require('node-helpers');
 function getFilesAndFolders(folderPath) {
   return {
     files: nodeHelpers.file.getChildFiles(folderPath, { recursive: true }),
-    folders: nodeHelpers.file.getChildDirs(folderPath, { recursive: true })
+    folders: nodeHelpers.file.getChildFolders(folderPath, { recursive: true })
   };
 }
 
 function validateFolders(folders, options = {}) {
   folders.forEach(el => {
     const files = nodeHelpers.file.getChildFiles(el);
-    const folders = nodeHelpers.file.getChildDirs(el);
+    const folders = nodeHelpers.file.getChildFolders(el);
     let isGoodFolder = (files.length > 0 || folders.length > 0);
 
     if (!isGoodFolder) throw new Error(`${el}, cannot be empty`);
@@ -56,13 +56,13 @@ module.exports.validateUnderscoreFontFolder = folderPath => {
   const { folders } = getFilesAndFolders(folderPath);
   validateFolders(folders, { mustContainFoldersOrFilesNotBoth: true });
 
-  const rootFolders = nodeHelpers.file.getChildDirs(folderPath);
+  const rootFolders = nodeHelpers.file.getChildFolders(folderPath);
 
   if (rootFolders.length === 0) throw new Error(`${folderPath}, must contain at least 1 font folder`);
 
   folders.forEach(el => {
     const files = nodeHelpers.file.getChildFiles(el).map(el => el.split('/').pop());
-    const folders = nodeHelpers.file.getChildDirs(el);
+    const folders = nodeHelpers.file.getChildFolders(el);
 
     if (files.length === 0 && folders.length > 0) return;
     validateFolders(folders, { mustContainFoldersOrFilesNotBoth: true });
