@@ -20,14 +20,28 @@ describe('_css folder', () => {
   it('should throw because of an empty subfolder', () => {
     assert.throws(
       () => folderChecker.validateUnderscoreCssFolder(path.join(__dirname, 'examples/_cssBad2')),
-      err => err.message.includes('_cssBad2/header/subheader no empty/underscore folders')
+      err => err.message.includes('_cssBad2/header/subheader, cannot be empty')
     );
   });
 
   it('should throw because it should have files', () => {
     assert.throws(
       () => folderChecker.validateUnderscoreCssFolder(path.join(__dirname, 'examples/_cssBad3')),
-      err => err.message.includes('should have files')
+      err => err.message.includes('/_cssBad3, should have files')
+    );
+  });
+
+  it('should throw because it should not have _ folders', () => {
+    assert.throws(
+      () => folderChecker.validateUnderscoreCssFolder(path.join(__dirname, 'examples/_cssBad4')),
+      err => err.message.includes('/_cssBad4/items, cannot contain _ folder(s)')
+    );
+  });
+
+  it('should throw because it should not have _ files', () => {
+    assert.throws(
+      () => folderChecker.validateUnderscoreCssFolder(path.join(__dirname, 'examples/_cssBad5')),
+      err => err.message.includes('/_cssBad5/items, cannot contain _ file(s)')
     );
   });
 });
@@ -44,7 +58,7 @@ describe('_font folder', () => {
     assert.throws(
       () =>
         folderChecker.validateUnderscoreFontFolder(path.join(__dirname, 'examples/_fontsBad1')),
-      err => err.message.includes('examples/_fontsBad1/gotham, should only contain woff files')
+      err => err.message.includes('/_fontsBad1/gotham, should only contain woff files')
     );
   });
 
@@ -52,7 +66,7 @@ describe('_font folder', () => {
     assert.throws(
       () =>
         folderChecker.validateUnderscoreFontFolder(path.join(__dirname, 'examples/_fontsBad1a')),
-      err => err.message.includes('examples/_fontsBad1a/gotham, should only contain svg files')
+      err => err.message.includes('/_fontsBad1a/gotham, should only contain svg files')
     );
   });
 
@@ -61,7 +75,7 @@ describe('_font folder', () => {
       () =>
         folderChecker.validateUnderscoreFontFolder(path.join(__dirname, 'examples/_fontsBad2')),
       err => err.message
-        .includes('examples/_fontsBad2/google/comicsans, should include a index.(json|scss) file')
+        .includes('/_fontsBad2/google/comicsans, should include a index.(json|scss) file')
     );
   });
 
@@ -69,9 +83,7 @@ describe('_font folder', () => {
     assert.throws(
       () =>
         folderChecker.validateUnderscoreFontFolder(path.join(__dirname, 'examples/_fontsBad3')),
-      err => err.message
-        .includes('examples/_fontsBad3/google, should only contain folders ' +
-                  'or files not both at the same time')
+      err => err.message.includes('/_fontsBad3/google, cannot contain both files and folders')
     );
   });
 
@@ -79,7 +91,7 @@ describe('_font folder', () => {
     assert.throws(
       () =>
         folderChecker.validateUnderscoreFontFolder(path.join(__dirname, 'examples/_fontsBad4')),
-      err => err.message.includes('examples/_fontsBad4, must contain at least 1 font folder')
+      err => err.message.includes('/_fontsBad4, must contain at least 1 font folder')
     );
   });
 });

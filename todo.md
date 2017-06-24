@@ -1,11 +1,11 @@
 - _css (only css files can be here)
+- _fonts (only font folders)
+  - should have 1 index.scss|index.json file refering to his font files
 
 # TODO
 - module and component checker
   - javascript projects
     - everything is modular mindset
-      - _fonts (only font folders)
-        - should have 1 index.scss|index.json file refering to his font files
       - _media (only images/videos can be here)
       - _helpers (useful functions that can be astracted/constants, only js files can be here)
       - _components (can have any of the other files)

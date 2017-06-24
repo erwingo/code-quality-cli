@@ -7,21 +7,44 @@ function getFilesAndFolders(folderPath) {
   };
 }
 
-function validateNonEmptyAndNoUnderscoreFolders(folders) {
+function validateFolders(folders, options = {}) {
   folders.forEach(el => {
-    const isGoodFolder = (nodeHelpers.file.getChildFiles(el).length >= 1 ||
-                          nodeHelpers.file.getChildDirs(el).length >= 1) &&
-                          el.split('/').pop()[0] !== '_';
+    const files = nodeHelpers.file.getChildFiles(el);
+    const folders = nodeHelpers.file.getChildDirs(el);
+    let isGoodFolder = (files.length > 0 || folders.length > 0);
 
-    if (isGoodFolder) return;
-    throw new Error(`${el} no empty/underscore folders`);
+    if (!isGoodFolder) throw new Error(`${el}, cannot be empty`);
+
+    if (options.mustContainFoldersOrFilesNotBoth) {
+      isGoodFolder = (files.length >= 1 && folders.length === 0) ||
+                      (files.length === 0 && folders.length >= 1);
+      if (!isGoodFolder) throw new Error(`${el}, cannot contain both files and folders`);
+    }
+
+    if (!options.canContainUnderscoreFolders) {
+      isGoodFolder = isGoodFolder &&
+                      folders
+                        .map(el => el.split('/').pop())
+                        .every(el => el[0] !== '_');
+
+      if (!isGoodFolder) throw new Error(`${el}, cannot contain _ folder(s)`);
+    }
+
+    if (!options.canContainUnderscoreFiles) {
+      isGoodFolder = isGoodFolder &&
+                      files
+                        .map(el => el.split('/').pop())
+                        .every(el => el[0] !== '_');
+
+      if (!isGoodFolder) throw new Error(`${el}, cannot contain _ file(s)`);
+    }
   });
 }
 
 module.exports.validateUnderscoreCssFolder = folderPath => {
   const { files, folders } = getFilesAndFolders(folderPath);
-  if (files.length === 0) throw new Error('should have files');
-  validateNonEmptyAndNoUnderscoreFolders(folders);
+  if (files.length === 0) throw new Error(`${folderPath}, should have files`);
+  validateFolders(folders);
 
   files.forEach(el => {
     if (/\.(css|scss)$/.test(el)) return;
@@ -31,7 +54,7 @@ module.exports.validateUnderscoreCssFolder = folderPath => {
 
 module.exports.validateUnderscoreFontFolder = folderPath => {
   const { folders } = getFilesAndFolders(folderPath);
-  validateNonEmptyAndNoUnderscoreFolders(folders);
+  validateFolders(folders, { mustContainFoldersOrFilesNotBoth: true });
 
   const rootFolders = nodeHelpers.file.getChildDirs(folderPath);
 
@@ -42,27 +65,24 @@ module.exports.validateUnderscoreFontFolder = folderPath => {
     const folders = nodeHelpers.file.getChildDirs(el);
 
     if (files.length === 0 && folders.length > 0) return;
+    validateFolders(folders, { mustContainFoldersOrFilesNotBoth: true });
 
-    if (files.length > 0 && folders.length === 0) {
-      if (files.includes('index.scss')) {
-        const hasGoodFontFiles = files
-          .filter(el => el !== 'index.scss')
-          .every(el => /\.woff$/.test(el));
+    if (files.includes('index.scss')) {
+      const hasGoodFontFiles = files
+        .filter(el => el !== 'index.scss')
+        .every(el => /\.woff$/.test(el));
 
-        if (hasGoodFontFiles) return;
-        throw new Error(`${el}, should only contain woff files`);
-      } else if (files.includes('index.json')) {
-        const hasGoodFontFiles = files
-          .filter(el => el !== 'index.json')
-          .every(el => /\.svg$/.test(el));
+      if (hasGoodFontFiles) return;
+      throw new Error(`${el}, should only contain woff files`);
+    } else if (files.includes('index.json')) {
+      const hasGoodFontFiles = files
+        .filter(el => el !== 'index.json')
+        .every(el => /\.svg$/.test(el));
 
-        if (hasGoodFontFiles) return;
-        throw new Error(`${el}, should only contain svg files`);
-      } else {
-        throw new Error(`${el}, should include a index.(json|scss) file`);
-      }
+      if (hasGoodFontFiles) return;
+      throw new Error(`${el}, should only contain svg files`);
     } else {
-      throw new Error(`${el}, should only contain folders or files not both at the same time`);
+      throw new Error(`${el}, should include a index.(json|scss) file`);
     }
   });
 };
