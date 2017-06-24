@@ -2,7 +2,7 @@ const assert = require('assert');
 const folderChecker = require('../../folderChecker');
 const path = require('path');
 
-describe('_css folder', () => {
+describe('_css folders', () => {
   it('should pass all validations', () => {
     assert.doesNotThrow(() => {
       folderChecker.validateUnderscoreCssFolder(path.join(__dirname, 'examples/_cssGood1'));
@@ -46,7 +46,7 @@ describe('_css folder', () => {
   });
 });
 
-describe('_font folder', () => {
+describe('_font folders', () => {
   it('should pass all validations', () => {
     assert.doesNotThrow(() => {
       folderChecker.validateUnderscoreFontFolder(path.join(__dirname, 'examples/_fontsGood1'));
@@ -87,11 +87,53 @@ describe('_font folder', () => {
     );
   });
 
-  it('must contain at least 1 font folder', () => {
+  it('root folder should not be empty', () => {
     assert.throws(
       () =>
         folderChecker.validateUnderscoreFontFolder(path.join(__dirname, 'examples/_fontsBad4')),
-      err => err.message.includes('/_fontsBad4, must contain at least 1 font folder')
+      err => err.message.includes('/_fontsBad4, must only contain folders')
+    );
+  });
+
+  it('root folder should contain only folders', () => {
+    assert.throws(
+      () =>
+        folderChecker.validateUnderscoreFontFolder(path.join(__dirname, 'examples/_fontsBad5')),
+      err => err.message.includes('/_fontsBad5, must only contain folders')
+    );
+  });
+});
+
+describe('_media folders', () => {
+  it('should pass all validations', () => {
+    assert.doesNotThrow(() => {
+      folderChecker.validateUnderscoreMediaFolder(path.join(__dirname, 'examples/_mediaGood1'));
+      folderChecker.validateUnderscoreMediaFolder(path.join(__dirname, 'examples/_mediaGood2'));
+      folderChecker.validateUnderscoreMediaFolder(path.join(__dirname, 'examples/_mediaGood3'));
+    });
+  });
+
+  it('should not contain an empty root folder', () => {
+    assert.throws(
+      () =>
+        folderChecker.validateUnderscoreMediaFolder(path.join(__dirname, 'examples/_mediaBad1')),
+      err => err.message.includes('/_mediaBad1, cannot be empty')
+    );
+  });
+
+  it('should contain valid files', () => {
+    assert.throws(
+      () =>
+        folderChecker.validateUnderscoreMediaFolder(path.join(__dirname, 'examples/_mediaBad2')),
+      err => err.message.includes('image.js, invalid file')
+    );
+  });
+
+  it('should not contain empty folders', () => {
+    assert.throws(
+      () =>
+        folderChecker.validateUnderscoreMediaFolder(path.join(__dirname, 'examples/_mediaBad3')),
+      err => err.message.includes('_mediaBad3/bgs, cannot be empty')
     );
   });
 });

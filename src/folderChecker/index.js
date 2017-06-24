@@ -1,6 +1,6 @@
 const nodeHelpers = require('node-helpers');
 
-function getFilesAndFolders(folderPath) {
+function getAllFilesAndFolders(folderPath) {
   return {
     files: nodeHelpers.file.getChildFiles(folderPath, { recursive: true }),
     folders: nodeHelpers.file.getChildFolders(folderPath, { recursive: true })
@@ -11,14 +11,22 @@ function validateFolders(folders, options = {}) {
   folders.forEach(el => {
     const files = nodeHelpers.file.getChildFiles(el);
     const folders = nodeHelpers.file.getChildFolders(el);
-    let isGoodFolder = (files.length > 0 || folders.length > 0);
+    let isGoodFolder;
 
-    if (!isGoodFolder) throw new Error(`${el}, cannot be empty`);
 
-    if (options.mustContainFoldersOrFilesNotBoth) {
-      isGoodFolder = (files.length >= 1 && folders.length === 0) ||
-                      (files.length === 0 && folders.length >= 1);
+    if (options.onlyFolders) {
+      isGoodFolder = files.length === 0 && folders.length > 0;
+      if (!isGoodFolder) throw new Error(`${el}, must only contain folders`);
+    } else if (options.onlyFiles) {
+      isGoodFolder = files.length > 0 && folders.length === 0;
+      if (!isGoodFolder) throw new Error(`${el}, must only contain files`);
+    } else if (options.mustContainFoldersOrFilesNotBoth) {
+      isGoodFolder = (files.length > 0 && folders.length === 0) ||
+                      (files.length === 0 && folders.length > 0);
       if (!isGoodFolder) throw new Error(`${el}, cannot contain both files and folders`);
+    } else {
+      isGoodFolder = files.length > 0 || folders.length > 0;
+      if (!isGoodFolder) throw new Error(`${el}, cannot be empty`);
     }
 
     if (!options.canContainUnderscoreFolders) {
@@ -42,7 +50,7 @@ function validateFolders(folders, options = {}) {
 }
 
 module.exports.validateUnderscoreCssFolder = folderPath => {
-  const { files, folders } = getFilesAndFolders(folderPath);
+  const { files, folders } = getAllFilesAndFolders(folderPath);
   if (files.length === 0) throw new Error(`${folderPath}, should have files`);
   validateFolders(folders);
 
@@ -53,12 +61,10 @@ module.exports.validateUnderscoreCssFolder = folderPath => {
 };
 
 module.exports.validateUnderscoreFontFolder = folderPath => {
-  const { folders } = getFilesAndFolders(folderPath);
+  const { folders } = getAllFilesAndFolders(folderPath);
+
   validateFolders(folders, { mustContainFoldersOrFilesNotBoth: true });
-
-  const rootFolders = nodeHelpers.file.getChildFolders(folderPath);
-
-  if (rootFolders.length === 0) throw new Error(`${folderPath}, must contain at least 1 font folder`);
+  validateFolders([folderPath], { onlyFolders: true });
 
   folders.forEach(el => {
     const files = nodeHelpers.file.getChildFiles(el).map(el => el.split('/').pop());
@@ -84,5 +90,16 @@ module.exports.validateUnderscoreFontFolder = folderPath => {
     } else {
       throw new Error(`${el}, should include a index.(json|scss) file`);
     }
+  });
+};
+
+module.exports.validateUnderscoreMediaFolder = folderPath => {
+  const { files, folders } = getAllFilesAndFolders(folderPath);
+
+  validateFolders([folderPath]);
+  validateFolders(folders);
+
+  files.map(el => el.split('/').pop()).forEach(el => {
+    if (!/\.(jpg|png|mp4)$/.test(el)) throw new Error(`${el}, invalid file`);
   });
 };
