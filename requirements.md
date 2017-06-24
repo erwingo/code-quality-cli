@@ -19,7 +19,7 @@ Dashboard (module)
 - _helpers (useful functions that can be astracted/constants)
 - _vendors (only external libraries/frameworks can be here)
 - file names must only contain english alphabet characters, can only start with _ or letter,
-  can only end with extensions (.jpg, .png, .css, .scss, .js), non extension part of the
+  can only end with extensions (.jpg, .png, .css, .scss, .js, .woff), non extension part of the
   name can only finish with letter or number, can contain -, _.
   valid: erwin.js, _erwin.js, erwingo.png, erwin1.js, erwinGaitan.js, erwin-gaitan2.js, erwin_gaitan.jpg
   invalid: 4erwin.js, -erwin.js, erwin gaitan.js

@@ -4,11 +4,15 @@
   "description": "Code quality cli tools that will help you to keep your code organized and clean.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha ./src/**/_tests/index.js"
+    "test": "nyc --reporter=html --reporter=text mocha ./src/**/_tests/index.js"
   },
   "author": "Erwin Gaitan O <erwingaitano@gmail.com>",
   "license": "ISC",
   "devDependencies": {
-    "mocha": "^3.4.2"
+    "mocha": "^3.4.2",
+    "nyc": "^11.0.2"
+  },
+  "dependencies": {
+    "node-helpers": "git+https://github.com/erwingaitano/node-helpers.git"
   }
 }
