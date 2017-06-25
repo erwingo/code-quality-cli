@@ -145,7 +145,7 @@ describe('_helpers folder', () => {
       folderChecker.validateUnderscoreHelpersFolder(path.join(__dirname, 'examples/_helpersGood2'));
       folderChecker.validateUnderscoreHelpersFolder(path.join(__dirname, 'examples/_helpersGood3'));
       folderChecker.validateUnderscoreHelpersFolder(path.join(__dirname, 'examples/_helpersGood4'));
-    }, err => null);
+    });
   });
 
   it('root folder should not be empty', () => {
@@ -185,6 +185,22 @@ describe('_helpers folder', () => {
       () =>
         folderChecker.validateUnderscoreHelpersFolder(path.join(__dirname, 'examples/_helpersBad5')),
       err => err.message.includes('/_helpersBad5, _helpers folder must not be here')
+    );
+  });
+
+  it('_helpers folder should not be with only 1 sibling file', () => {
+    assert.throws(
+      () =>
+        folderChecker.validateUnderscoreHelpersFolder(path.join(__dirname, 'examples/_helpersBad5a')),
+      err => err.message.includes('/_helpersBad5a, _helpers folder must not be here')
+    );
+  });
+
+  it('can only contain js files', () => {
+    assert.throws(
+      () =>
+        folderChecker.validateUnderscoreHelpersFolder(path.join(__dirname, 'examples/_helpersBad6')),
+      err => err.message.includes('lol.jpg, invalid file')
     );
   });
 });
