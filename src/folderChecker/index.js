@@ -131,3 +131,9 @@ module.exports.validateUnderscoreHelpersFolder = folderPath => {
     }
   });
 };
+
+module.exports.validateUnderscoreVendorsFolder = folderPath => {
+  const { folders } = getAllFilesAndFolders(folderPath);
+  validateFolders([folderPath], { onlyFolders: true });
+  validateFolders(folders);
+};

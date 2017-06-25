@@ -204,3 +204,53 @@ describe('_helpers folder', () => {
     );
   });
 });
+
+describe('_vendors folders', () => {
+  it('should pass all validations', () => {
+    assert.doesNotThrow(() => {
+      folderChecker.validateUnderscoreVendorsFolder(path.join(__dirname, 'examples/_vendorsGood1'));
+      folderChecker.validateUnderscoreVendorsFolder(path.join(__dirname, 'examples/_vendorsGood2'));
+      folderChecker.validateUnderscoreVendorsFolder(path.join(__dirname, 'examples/_vendorsGood3'));
+    });
+  });
+
+  it('should throw because empty folder', () => {
+    assert.throws(
+      () =>
+        folderChecker.validateUnderscoreVendorsFolder(path.join(__dirname, 'examples/_vendorsBad1')),
+      err => err.message.includes('_vendorsBad1, must only contain folders')
+    );
+  });
+
+  it('should throw because empty subdolder', () => {
+    assert.throws(
+      () =>
+        folderChecker.validateUnderscoreVendorsFolder(path.join(__dirname, 'examples/_vendorsBad2')),
+      err => err.message.includes('_vendorsBad2/d3, cannot be empty')
+    );
+  });
+
+  it('should throw because empty deep subdolder', () => {
+    assert.throws(
+      () =>
+        folderChecker.validateUnderscoreVendorsFolder(path.join(__dirname, 'examples/_vendorsBad3')),
+      err => err.message.includes('_vendorsBad3/d3/utils/items, cannot be empty')
+    );
+  });
+
+  it('should throw because cannot contain _ folders', () => {
+    assert.throws(
+      () =>
+        folderChecker.validateUnderscoreVendorsFolder(path.join(__dirname, 'examples/_vendorsBad4')),
+      err => err.message.includes('_vendorsBad4, cannot contain _ folder(s)')
+    );
+  });
+
+  it('should throw because cannot contain _ subfolders', () => {
+    assert.throws(
+      () =>
+        folderChecker.validateUnderscoreVendorsFolder(path.join(__dirname, 'examples/_vendorsBad5')),
+      err => err.message.includes('_vendorsBad5/d3, cannot contain _ folder(s)')
+    );
+  });
+});
