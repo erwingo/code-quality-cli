@@ -1,4 +1,6 @@
 const assert = require('assert');
+const nodeHelpers = require('node-helpers');
+const path = require('path');
 const { validateFilename } = require('../../folderChecker/filename');
 
 describe('filenames', () => {
@@ -8,6 +10,10 @@ describe('filenames', () => {
         ['erwin.js', '_erwin.js', 'erwingo.css', 'erwin1.scss'].forEach(validateFilename);
         ['erwinGaitan.jpg', 'erwin-gaitan.png', 'erwin_gaitan.mp4'].forEach(validateFilename);
         ['lol.woff', 'omg4.svg', 'whatisthis4.json'].forEach(validateFilename);
+
+        nodeHelpers.file.getChildFiles(path.join(__dirname, 'examples'), { recursive: true })
+          .map(el => el.split('/').pop())
+          .forEach(validateFilename);
       }
     );
   });
