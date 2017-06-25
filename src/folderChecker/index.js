@@ -13,7 +13,6 @@ function validateFolders(folders, options = {}) {
     const folders = nodeHelpers.file.getChildFolders(el);
     let isGoodFolder;
 
-
     if (options.onlyFolders) {
       isGoodFolder = files.length === 0 && folders.length > 0;
       if (!isGoodFolder) throw new Error(`${el}, must only contain folders`);
