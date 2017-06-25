@@ -7,7 +7,8 @@
 - module and component checker
   - javascript projects
     - everything is modular mindset
-      - _helpers (useful functions that can be astracted/constants, only js files can be here)
+      - _helpers (useful functions that can be astracted/constants)
+        - only js files, folders and _helpers can be here
       - _components (can have any of the other files)
       - _vendors (only external libraries/frameworks can be here)
   - should be able to tell external dependencies of modules and components.

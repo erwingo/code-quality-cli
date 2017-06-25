@@ -46,18 +46,18 @@ describe('_css folders', () => {
   });
 });
 
-describe('_font folders', () => {
+describe('_fonts folders', () => {
   it('should pass all validations', () => {
     assert.doesNotThrow(() => {
-      folderChecker.validateUnderscoreFontFolder(path.join(__dirname, 'examples/_fontsGood1'));
-      folderChecker.validateUnderscoreFontFolder(path.join(__dirname, 'examples/_fontsGood2'));
+      folderChecker.validateUnderscoreFontsFolder(path.join(__dirname, 'examples/_fontsGood1'));
+      folderChecker.validateUnderscoreFontsFolder(path.join(__dirname, 'examples/_fontsGood2'));
     });
   });
 
   it('should only contain woff files if index.scss', () => {
     assert.throws(
       () =>
-        folderChecker.validateUnderscoreFontFolder(path.join(__dirname, 'examples/_fontsBad1')),
+        folderChecker.validateUnderscoreFontsFolder(path.join(__dirname, 'examples/_fontsBad1')),
       err => err.message.includes('/_fontsBad1/gotham, should only contain woff files')
     );
   });
@@ -65,7 +65,7 @@ describe('_font folders', () => {
   it('should only contain svg files if index.json', () => {
     assert.throws(
       () =>
-        folderChecker.validateUnderscoreFontFolder(path.join(__dirname, 'examples/_fontsBad1a')),
+        folderChecker.validateUnderscoreFontsFolder(path.join(__dirname, 'examples/_fontsBad1a')),
       err => err.message.includes('/_fontsBad1a/gotham, should only contain svg files')
     );
   });
@@ -73,7 +73,7 @@ describe('_font folders', () => {
   it('should include a index.(json|scss) file', () => {
     assert.throws(
       () =>
-        folderChecker.validateUnderscoreFontFolder(path.join(__dirname, 'examples/_fontsBad2')),
+        folderChecker.validateUnderscoreFontsFolder(path.join(__dirname, 'examples/_fontsBad2')),
       err => err.message
         .includes('/_fontsBad2/google/comicsans, should include a index.(json|scss) file')
     );
@@ -82,7 +82,7 @@ describe('_font folders', () => {
   it('should only contain folders or files not both at the same time', () => {
     assert.throws(
       () =>
-        folderChecker.validateUnderscoreFontFolder(path.join(__dirname, 'examples/_fontsBad3')),
+        folderChecker.validateUnderscoreFontsFolder(path.join(__dirname, 'examples/_fontsBad3')),
       err => err.message.includes('/_fontsBad3/google, cannot contain both files and folders')
     );
   });
@@ -90,7 +90,7 @@ describe('_font folders', () => {
   it('root folder should not be empty', () => {
     assert.throws(
       () =>
-        folderChecker.validateUnderscoreFontFolder(path.join(__dirname, 'examples/_fontsBad4')),
+        folderChecker.validateUnderscoreFontsFolder(path.join(__dirname, 'examples/_fontsBad4')),
       err => err.message.includes('/_fontsBad4, must only contain folders')
     );
   });
@@ -98,7 +98,7 @@ describe('_font folders', () => {
   it('root folder should contain only folders', () => {
     assert.throws(
       () =>
-        folderChecker.validateUnderscoreFontFolder(path.join(__dirname, 'examples/_fontsBad5')),
+        folderChecker.validateUnderscoreFontsFolder(path.join(__dirname, 'examples/_fontsBad5')),
       err => err.message.includes('/_fontsBad5, must only contain folders')
     );
   });
@@ -134,6 +134,57 @@ describe('_media folders', () => {
       () =>
         folderChecker.validateUnderscoreMediaFolder(path.join(__dirname, 'examples/_mediaBad3')),
       err => err.message.includes('_mediaBad3/bgs, cannot be empty')
+    );
+  });
+});
+
+describe('_helpers folder', () => {
+  it('should pass all validations', () => {
+    assert.doesNotThrow(() => {
+      folderChecker.validateUnderscoreHelpersFolder(path.join(__dirname, 'examples/_helpersGood1'));
+      folderChecker.validateUnderscoreHelpersFolder(path.join(__dirname, 'examples/_helpersGood2'));
+      folderChecker.validateUnderscoreHelpersFolder(path.join(__dirname, 'examples/_helpersGood3'));
+      folderChecker.validateUnderscoreHelpersFolder(path.join(__dirname, 'examples/_helpersGood4'));
+    }, err => null);
+  });
+
+  it('root folder should not be empty', () => {
+    assert.throws(
+      () =>
+        folderChecker.validateUnderscoreHelpersFolder(path.join(__dirname, 'examples/_helpersBad1')),
+      err => err.message.includes('/_helpersBad1, cannot be empty')
+    );
+  });
+
+  it('_helpers subfolder cannot be empty', () => {
+    assert.throws(
+      () =>
+        folderChecker.validateUnderscoreHelpersFolder(path.join(__dirname, 'examples/_helpersBad2')),
+      err => err.message.includes('/_helpersBad2/_helpers, cannot be empty')
+    );
+  });
+
+  it('should not contain folders that only have _helpers folder', () => {
+    assert.throws(
+      () =>
+        folderChecker.validateUnderscoreHelpersFolder(path.join(__dirname, 'examples/_helpersBad3')),
+      err => err.message.includes('/_helpersBad3/special, _helpers folder must not be here')
+    );
+  });
+
+  it('only _ folders allowed are _helpers', () => {
+    assert.throws(
+      () =>
+        folderChecker.validateUnderscoreHelpersFolder(path.join(__dirname, 'examples/_helpersBad4')),
+      err => err.message.includes('/_helpersBad4/special/_helperss, only _ folders allowed are _helpers')
+    );
+  });
+
+  it('_helpers folder should not be with only 1 sibling folder', () => {
+    assert.throws(
+      () =>
+        folderChecker.validateUnderscoreHelpersFolder(path.join(__dirname, 'examples/_helpersBad5')),
+      err => err.message.includes('/_helpersBad5, _helpers folder must not be here')
     );
   });
 });

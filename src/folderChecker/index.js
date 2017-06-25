@@ -55,12 +55,11 @@ module.exports.validateUnderscoreCssFolder = folderPath => {
   validateFolders(folders);
 
   files.forEach(el => {
-    if (/\.(css|scss)$/.test(el)) return;
-    throw new Error(`${el}, only css/scss files`);
+    if (!/\.(css|scss)$/.test(el)) throw new Error(`${el}, only css/scss files`);
   });
 };
 
-module.exports.validateUnderscoreFontFolder = folderPath => {
+module.exports.validateUnderscoreFontsFolder = folderPath => {
   const { folders } = getAllFilesAndFolders(folderPath);
 
   validateFolders(folders, { mustContainFoldersOrFilesNotBoth: true });
@@ -101,5 +100,35 @@ module.exports.validateUnderscoreMediaFolder = folderPath => {
 
   files.map(el => el.split('/').pop()).forEach(el => {
     if (!/\.(jpg|png|mp4)$/.test(el)) throw new Error(`${el}, invalid file`);
+  });
+};
+
+module.exports.validateUnderscoreHelpersFolder = folderPath => {
+  const { files, folders } = getAllFilesAndFolders(folderPath);
+
+  validateFolders([folderPath], { canContainUnderscoreFolders: true });
+  validateFolders(folders, { canContainUnderscoreFolders: true });
+
+  // Check all files are js
+  files.map(el => el.split('/').pop()).forEach(el => {
+    if (!/\.js$/.test(el)) throw new Error(`${el}, invalid file`);
+  });
+
+  // Check folders can only contain _helpers but only if other files at same level
+  folders.concat([folderPath]).forEach(el => {
+    const name = el.split('/').pop();
+    if (el !== folderPath && name[0] === '_' && name !== '_helpers') {
+      throw new Error(`${el}, only _ folders allowed are _helpers`);
+    }
+
+    const files = nodeHelpers.file.getChildFiles(el);
+    const folders = nodeHelpers.file.getChildFolders(el).map(el => el.split('/').pop());
+
+    if (folders.includes('_helpers')) {
+      if ((files.length === 0 && folders.length <= 2) ||
+          (files.length === 1 && folders.length === 1)) {
+        throw new Error(`${el}, _helpers folder must not be here`);
+      }
+    }
   });
 };
