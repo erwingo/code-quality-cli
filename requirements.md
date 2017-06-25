@@ -16,7 +16,9 @@ Dashboard (module)
 - _css (only css files and subdirs can be here)
 - _media (only images/videos aund subdirs can be here)
 - _components (can have any of the other files)
+  - components inside _components subfolders are only meant to be used inside that scope
 - _helpers (useful functions that can be astracted/constants)
+  - helpers inside _helpers subfolders are only meant to be used inside that scope
 - _vendors (only external libraries/frameworks can be here)
 - file names must only contain english alphabet characters, can only start with _ or letter,
   can only end with extensions (.jpg, .png, .css, .scss, .js, .woff), non extension part of the

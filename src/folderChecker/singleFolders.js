@@ -1,7 +1,7 @@
 const helpers = require('./_helpers');
 
 module.exports.validateUnderscoreCssFolder = folderPath => {
-  const { files, folders } = helpers.getAllFilesAndFolders(folderPath);
+  const { files, folders } = helpers.getAllFilesAndFolders(folderPath, true);
   if (files.length === 0) throw new Error(`${folderPath}, should have files`);
   helpers.validateFolders(folders);
 
@@ -11,13 +11,13 @@ module.exports.validateUnderscoreCssFolder = folderPath => {
 };
 
 module.exports.validateUnderscoreFontsFolder = folderPath => {
-  const { folders } = helpers.getAllFilesAndFolders(folderPath);
+  const { folders } = helpers.getAllFilesAndFolders(folderPath, true);
 
   helpers.validateFolders(folders, { mustContainFoldersOrFilesNotBoth: true });
   helpers.validateFolders([folderPath], { onlyFolders: true });
 
   folders.forEach(el => {
-    const filesAndFolders = helpers.getAllFilesAndFolders(el, false);
+    const filesAndFolders = helpers.getAllFilesAndFolders(el);
     const folders = filesAndFolders.folders;
     const files = filesAndFolders.files.map(el => el.split('/').pop());
 
@@ -45,7 +45,7 @@ module.exports.validateUnderscoreFontsFolder = folderPath => {
 };
 
 module.exports.validateUnderscoreMediaFolder = folderPath => {
-  const { files, folders } = helpers.getAllFilesAndFolders(folderPath);
+  const { files, folders } = helpers.getAllFilesAndFolders(folderPath, true);
 
   helpers.validateFolders([folderPath]);
   helpers.validateFolders(folders);
@@ -56,7 +56,7 @@ module.exports.validateUnderscoreMediaFolder = folderPath => {
 };
 
 module.exports.validateUnderscoreHelpersFolder = folderPath => {
-  const { files, folders } = helpers.getAllFilesAndFolders(folderPath);
+  const { files, folders } = helpers.getAllFilesAndFolders(folderPath, true);
 
   helpers.validateFolders([folderPath], { canContainUnderscoreFolders: true });
   helpers.validateFolders(folders, { canContainUnderscoreFolders: true });
@@ -73,7 +73,7 @@ module.exports.validateUnderscoreHelpersFolder = folderPath => {
       throw new Error(`${el}, only _ folders allowed are _helpers`);
     }
 
-    const filesAndFolders = helpers.getAllFilesAndFolders(el, false);
+    const filesAndFolders = helpers.getAllFilesAndFolders(el);
     const files = filesAndFolders.files;
     const folders = filesAndFolders.folders.map(el => el.split('/').pop());
 
@@ -87,7 +87,7 @@ module.exports.validateUnderscoreHelpersFolder = folderPath => {
 };
 
 module.exports.validateUnderscoreVendorsFolder = folderPath => {
-  const { folders } = helpers.getAllFilesAndFolders(folderPath);
+  const { folders } = helpers.getAllFilesAndFolders(folderPath, true);
   helpers.validateFolders([folderPath], { onlyFolders: true });
   helpers.validateFolders(folders);
 };

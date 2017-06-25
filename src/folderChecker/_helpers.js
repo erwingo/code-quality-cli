@@ -1,20 +1,24 @@
 const nodeHelpers = require('node-helpers');
 
-module.exports.getAllFilesAndFolders = (folderPath, recursive = true) => {
+module.exports.getAllFilesAndFolders = (folderPath, recursive = false) => {
   return {
     files: module.exports.getAllFiles(folderPath, recursive),
     folders: nodeHelpers.file.getChildFolders(folderPath, { recursive })
   };
 };
 
-module.exports.getAllFiles = (folderPath, recursive = true) => {
+module.exports.getAllFiles = (folderPath, recursive = false) => {
   return nodeHelpers.file.getChildFiles(folderPath, { recursive })
     .filter(el => !/.empty$/.test(el));
 };
 
+module.exports.getAllFolders = (folderPath, recursive = false) => {
+  return nodeHelpers.file.getChildFolders(folderPath, { recursive });
+};
+
 module.exports.validateFolders = (folders, options = {}) => {
   folders.forEach(el => {
-    const { files, folders } = module.exports.getAllFilesAndFolders(el, false);
+    const { files, folders } = module.exports.getAllFilesAndFolders(el);
     let isGoodFolder;
 
     if (options.onlyFolders) {

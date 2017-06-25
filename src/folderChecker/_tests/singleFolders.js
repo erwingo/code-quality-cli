@@ -1,5 +1,5 @@
 const assert = require('assert');
-const folderChecker = require('../../folderChecker');
+const folderChecker = require('../../folderChecker/singleFolders');
 const path = require('path');
 
 describe('_css folders', () => {
