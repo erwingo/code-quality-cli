@@ -1,9 +1,8 @@
 const assert = require('assert');
-const path = require('path');
 const helpers = require('../_helpers');
 const { validateFilename } = require('../../folderChecker/filename');
 
-describe('filenames', () => {
+describe('filenames/folders', () => {
   it('should pass all validations', () => {
     assert.doesNotThrow(
       () => {
@@ -11,9 +10,9 @@ describe('filenames', () => {
         ['erwinGaitan.jpg', 'erwin-gaitan.png', 'erwin_gaitan.mp4'].forEach(validateFilename);
         ['lol.woff', 'omg4.svg', 'whatisthis4.json'].forEach(validateFilename);
 
-        helpers.getAllFiles(path.join(__dirname, 'examples'))
-          .map(el => el.split('/').pop())
-          .forEach(validateFilename);
+        const { files, folders } = helpers.getAllFilesAndFolders(__dirname, 'examples');
+        files.map(el => el.split('/').pop()).forEach(validateFilename);
+        folders.map(el => el.split('/').pop()).forEach(el => validateFilename(el, true));
       }
     );
   });

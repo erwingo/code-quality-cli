@@ -1,8 +1,8 @@
-module.exports.validateFilename = filename => {
+module.exports.validateFilename = (filename, isFolder = false) => {
   const basename = filename.split('.')[0];
   const extension = filename.split('.').pop();
 
-  if (!/^(js|css|scss|jpg|png|mp4|woff|svg|json)$/.test(extension)) {
+  if (!isFolder && !/^(js|css|scss|jpg|png|mp4|woff|svg|json)$/.test(extension)) {
     throw new Error(`${filename}, invalid extension`);
   }
 
