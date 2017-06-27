@@ -40,11 +40,6 @@ describe('filenames/folders', () => {
     );
 
     assert.throws(
-      () => { validateFilename('erwi/n.mp4'); },
-      err => err.message.includes('erwi/n.mp4, contains invalid character')
-    );
-
-    assert.throws(
       () => { validateFilename('erwin gaitan.json'); },
       err => err.message.includes('erwin gaitan.json, contains invalid character')
     );
