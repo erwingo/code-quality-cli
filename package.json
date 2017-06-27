@@ -2,7 +2,7 @@
   "name": "code-quality-cli",
   "version": "0.0.1",
   "description": "Code quality cli tools that will help you to keep your code organized and clean.",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "nyc --reporter=html --reporter=text mocha ./src/**/_tests/index.js"
   },
@@ -13,6 +13,8 @@
     "nyc": "^11.0.2"
   },
   "dependencies": {
+    "commander": "^2.10.0",
+    "glob": "^7.1.2",
     "node-helpers": "git+https://github.com/erwingaitano/node-helpers.git"
   }
 }
