@@ -11,6 +11,8 @@ const validUnderscoreFolders = [
   '_fonts'
 ];
 
+const validExtensions = ['js', 'json'];
+
 function getChildModules(dirPath) {
   const folders = helpers.getAllFolders(dirPath);
   const moduleFolders = folders
@@ -51,7 +53,7 @@ module.exports.validateModule = dirPath => {
       const fileExt = nodeHelpers.file.getFileExtension(el);
       const basename = nodeHelpers.file.getFileBasename(el);
 
-      if (fileExt !== 'js') throw Error(`${el}, invalid file extension`);
+      if (!validExtensions.includes(fileExt)) throw Error(`${el}, invalid file extension`);
 
       if (basename[0] === '_') {
         if (basename !== '_helpers') throw new Error(`${el}, invalid _ file`);
