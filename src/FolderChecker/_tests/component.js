@@ -25,40 +25,35 @@ describe('_components', () => {
     assert.throws(
       () =>
         validateUnderscoreComponentsFolder(path.join(__dirname, 'examples/_componentsBad1a')),
-      err => err.message.includes('_componentsBad1a/Lol.scss, invalid file')
+      err => err.message.includes('_componentsBad1a/lol.scss, invalid file')
     );
   });
 
-  it('should throw because component folders/files should be capitalized', () => {
+  it('should throw because component names should not be capitalized', () => {
     assert.throws(
       () =>
         validateUnderscoreComponentsFolder(path.join(__dirname, 'examples/_componentsBad2')),
-      err => err.message.includes('_componentsBad2/sidebar, should be capitalized')
-    );
-
-    assert.throws(
-      () =>
-        validateUnderscoreComponentsFolder(path.join(__dirname, 'examples/_componentsBad2a')),
-      err => err.message.includes('_componentsBad2a/clock.js, should be capitalized')
+      err =>
+        err.message.includes('_componentsBad2/Sidebar, component name should not be capitalized')
     );
   });
 
-  it('should throw because _component folder should have index.js', () => {
+  it('should throw because component folder must have an index.js', () => {
     assert.throws(
       () =>
         validateUnderscoreComponentsFolder(path.join(__dirname, 'examples/_componentsBad3')),
       err => err.message
-        .includes('_componentsBad3/_components/Footer, must include index.js')
+        .includes('_componentsBad3/_components/footer, component must include index.js')
     );
   });
 
-  it('should throw because folder component cannot contain file/folder component', () => {
+  it('should throw because component can only contain _ folders', () => {
     assert.throws(
       () =>
         validateUnderscoreComponentsFolder(path.join(__dirname, 'examples/_componentsBad4')),
       err => err.message
-        .includes('_componentsBad4/Sidebar/_components/Footer/Wow.js, ' +
-          'cannot contain file/folder component')
+        .includes('_componentsBad4/sidebar/_components/footer, ' +
+          'component can only contain _ folders')
     );
   });
 });

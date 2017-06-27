@@ -12,9 +12,7 @@ module.exports.validateUnderscoreComponentsFolder = folderPath => {
 
   const { componentFolders, fileComponents } = underscoreComponentFolders
     .reduce((result, el) => {
-      const folders = helpers.getAllFolders(el)
-        .filter(el => el.split('/').pop()[0] !== '_');
-
+      const folders = helpers.getAllFolders(el).filter(el => el.split('/').pop()[0] !== '_');
       const files = helpers.getAllFiles(el);
 
       files.forEach(el => {
@@ -31,17 +29,17 @@ module.exports.validateUnderscoreComponentsFolder = folderPath => {
     const { files, folders } = helpers.getAllFilesAndFolders(el);
 
     if (!files.map(el => el.split('/').pop()).includes('index.js')) {
-      throw new Error(`${el}, must include index.js`);
+      throw new Error(`${el}, component must include index.js`);
     }
 
-    files.concat(folders).forEach(el => {
-      if (/[A-Z]/.test(el.split('/').pop()[0])) {
-        throw new Error(`${el}, cannot contain file/folder component`);
-      }
-    });
+    if (folders.filter(el => el.split('/').pop()[0] !== '_').length !== 0) {
+      throw new Error(`${el}, component can only contain _ folders`);
+    }
   });
 
   componentFolders.concat(fileComponents).forEach(el => {
-    if (!/[A-Z]/.test(el.split('/').pop()[0])) throw new Error(`${el}, should be capitalized`);
+    if (/[A-Z]/.test(el.split('/').pop()[0])) {
+      throw new Error(`${el}, component name should not be capitalized`);
+    }
   });
 };
