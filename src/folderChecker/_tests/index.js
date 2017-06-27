@@ -1,4 +1,4 @@
 require('./filename');
-require('./singleFolders');
-require('./components');
+require('./singleFolder');
+require('./component');
 require('./module');

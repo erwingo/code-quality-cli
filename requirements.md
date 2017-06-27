@@ -25,3 +25,7 @@ Dashboard (module)
   name can only finish with letter or number, can contain -, _.
   valid: erwin.js, _erwin.js, erwingo.png, erwin1.js, erwinGaitan.js, erwin-gaitan2.js, erwin_gaitan.jpg
   invalid: 4erwin.js, -erwin.js, erwin gaitan.js
+
+- you should be able to type `code-quality [folderPath]` and start inspecting
+- should allow to exclude/include folders/files using glob pattern
+- should allow config things go in a `.codeQuality` file located at the root

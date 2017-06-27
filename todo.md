@@ -11,9 +11,6 @@
 - Module folders
 
 # TODO
-- module and component checker
-  - javascript projects
-    - everything is modular mindset
   - should be able to tell external dependencies of modules and components.
     For example, if a component called Sidebar used a helper function outside
     of his folder, this checker should tell him those dependencies.

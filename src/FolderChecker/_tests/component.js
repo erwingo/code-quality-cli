@@ -1,6 +1,6 @@
 const assert = require('assert');
 const path = require('path');
-const { validateUndercoreComponentsFolder } = require('../components');
+const { validateUndercoreComponentsFolder } = require('../component');
 
 describe('_components', () => {
   it('should pass all validations', () => {
