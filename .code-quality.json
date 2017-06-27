@@ -1,0 +1,13 @@
+{
+  "ignoreFolders": [
+    "node_modules",
+    ".git",
+    ".nyc_output",
+    "coverage",
+    "src/folderChecker/_tests/examples"
+  ],
+  "ignoreFiles": [
+    ".gitignore",
+    "*.md"
+  ]
+}
