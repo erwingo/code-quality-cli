@@ -1,6 +1,7 @@
 const assert = require('assert');
+const path = require('path');
 const helpers = require('../_helpers');
-const { validateFilename } = require('../../folderChecker/filename');
+const { validateFilename } = require('../../FolderChecker/filename');
 
 describe('filenames/folders', () => {
   it('should pass all validations', () => {
@@ -10,7 +11,10 @@ describe('filenames/folders', () => {
         ['erwinGaitan.jpg', 'erwin-gaitan.png', 'erwin_gaitan.mp4'].forEach(validateFilename);
         ['lol.woff', 'omg4.svg', 'whatisthis4.json'].forEach(validateFilename);
 
-        const { files, folders } = helpers.getAllFilesAndFolders(__dirname, 'examples', true);
+        const { files, folders } = helpers.getAllFilesAndFolders(
+          path.join(__dirname, 'examples'), true
+        );
+
         files.map(el => el.split('/').pop()).forEach(validateFilename);
         folders.map(el => el.split('/').pop()).forEach(el => validateFilename(el, true));
       }
