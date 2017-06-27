@@ -9,6 +9,7 @@ describe('Module', () => {
       validateModule(path.join(__dirname, 'examples/ModuleGood2'));
       validateModule(path.join(__dirname, 'examples/ModuleGood3'));
       validateModule(path.join(__dirname, 'examples/ModuleGood4'));
+      validateModule(path.join(__dirname, 'examples/ModuleGood5'));
     });
   });
 
@@ -20,8 +21,8 @@ describe('Module', () => {
     );
   });
 
-  it(`should only have allowed _ folders (_tests, _css, _components,
-      _media, _vendors, _fonts)`, () => {
+  it(`should only have allowed _ folders
+      (_tests, _css, _helpers, _components, _media, _vendors, _fonts)`, () => {
     assert.throws(
       () =>
         validateModule(path.join(__dirname, 'examples/ModuleBad2')),
@@ -33,13 +34,13 @@ describe('Module', () => {
     assert.throws(
       () =>
         validateModule(path.join(__dirname, 'examples/ModuleBad3')),
-      err => err.message.includes('ModuleBad3, cannot contain _ file(s)')
+      err => err.message.includes('ModuleBad3/_awesomething.js, invalid _ file')
     );
 
     assert.throws(
       () =>
         validateModule(path.join(__dirname, 'examples/ModuleBad3a')),
-      err => err.message.includes('ModuleBad3a/Dashboard, cannot contain _ file(s)')
+      err => err.message.includes('ModuleBad3a/Dashboard/_awesomething.js, invalid _ file')
     );
   });
 
@@ -57,6 +58,15 @@ describe('Module', () => {
         validateModule(path.join(__dirname, 'examples/ModuleBad5')),
       err =>
         err.message.includes('ModuleBad5/Dashboard/An.js, cannot have capitalized name')
+    );
+  });
+
+  it('cannot have module folders with both file and folder _helpers', () => {
+    assert.throws(
+      () =>
+        validateModule(path.join(__dirname, 'examples/ModuleBad6')),
+      err =>
+        err.message.includes('ModuleBad6/Dashboard, cannot have both file and folder _helpers')
     );
   });
 });
