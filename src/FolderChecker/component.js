@@ -1,4 +1,4 @@
-const helpers = require('./_helpers');
+const helpers = require('../_helpers');
 
 module.exports.validateUnderscoreComponentsFolder = folderPath => {
   const folders = helpers.getAllFolders(folderPath, true);

@@ -1,7 +1,7 @@
 const assert = require('assert');
 const path = require('path');
-const helpers = require('../_helpers');
-const { validateFilename } = require('../../FolderChecker/filename');
+const helpers = require('../../_helpers');
+const { validateFilename } = require('../../folderChecker/filename');
 
 describe('filenames/folders', () => {
   it('should pass all validations', () => {

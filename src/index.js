@@ -4,12 +4,11 @@ const fs = require('fs');
 const path = require('path');
 const commander = require('commander');
 const glob = require('glob');
-// TODO: you should only use helpers in your same level or above
-const helpers = require('./FolderChecker/_helpers');
-const filenameChecker = require('./FolderChecker/filename');
-const componentChecker = require('./FolderChecker/component');
-const moduleChecker = require('./FolderChecker/module');
-const singleFolderChecker = require('./FolderChecker/singleFolder');
+const helpers = require('./_helpers');
+const filenameChecker = require('./folderChecker/filename');
+const componentChecker = require('./folderChecker/component');
+const moduleChecker = require('./folderChecker/module');
+const singleFolderChecker = require('./folderChecker/singleFolder');
 const version = require('../package.json').version;
 
 commander.version(version)

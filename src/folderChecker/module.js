@@ -1,4 +1,4 @@
-const helpers = require('./_helpers');
+const helpers = require('../_helpers');
 const nodeHelpers = require('node-helpers');
 
 const validUnderscoreFolders = [
