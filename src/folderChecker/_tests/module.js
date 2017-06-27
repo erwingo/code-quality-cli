@@ -30,7 +30,7 @@ describe('Module', () => {
     );
   });
 
-  it('cannot have module folders with _ files', () => {
+  it('cannot have modules with _ files', () => {
     assert.throws(
       () =>
         validateModule(path.join(__dirname, 'examples/ModuleBad3')),
@@ -40,11 +40,11 @@ describe('Module', () => {
     assert.throws(
       () =>
         validateModule(path.join(__dirname, 'examples/ModuleBad3a')),
-      err => err.message.includes('ModuleBad3a/Dashboard/_awesomething.js, invalid _ file')
+      err => err.message.includes('ModuleBad3a/dashboard/_awesomething.js, invalid _ file')
     );
   });
 
-  it('cannot have module folders with non js files', () => {
+  it('cannot have modules with non js files', () => {
     assert.throws(
       () =>
         validateModule(path.join(__dirname, 'examples/ModuleBad4')),
@@ -52,21 +52,21 @@ describe('Module', () => {
     );
   });
 
-  it('cannot have module folders with capitalized names in js files', () => {
+  it('cannot have modules with capitalized names', () => {
     assert.throws(
       () =>
         validateModule(path.join(__dirname, 'examples/ModuleBad5')),
       err =>
-        err.message.includes('ModuleBad5/Dashboard/An.js, cannot have capitalized name')
+        err.message.includes('ModuleBad5/dashboard/BannerArea, cannot have capitalized name')
     );
   });
 
-  it('cannot have module folders with both file and folder _helpers', () => {
+  it('cannot have modules with both file and folder _helpers', () => {
     assert.throws(
       () =>
         validateModule(path.join(__dirname, 'examples/ModuleBad6')),
       err =>
-        err.message.includes('ModuleBad6/Dashboard, cannot have both file and folder _helpers')
+        err.message.includes('ModuleBad6/dashboard, cannot have both file and folder _helpers')
     );
   });
 });

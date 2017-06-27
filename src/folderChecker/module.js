@@ -14,7 +14,7 @@ const validUnderscoreFolders = [
 function getChildModules(dirPath) {
   const folders = helpers.getAllFolders(dirPath);
   const moduleFolders = folders
-    .filter(el => /[A-Z]/.test(el.split('/').pop()[0]));
+    .filter(el => el.split('/').pop()[0] !== '_');
 
   if (moduleFolders.length === 0) return [];
 
@@ -39,6 +39,10 @@ module.exports.validateModule = dirPath => {
         if (!validUnderscoreFolders.includes(name)) throw new Error(`${el}, invalid _ folder`);
         if (name === '_helpers') containUnderscoreHelpersFolder = true;
       }
+
+      if (/[A-Z]/.test(name[0])) {
+        throw new Error(`${el}, cannot have capitalized name`);
+      }
     });
 
     let containUnderscoreHelpersFile;
@@ -48,9 +52,6 @@ module.exports.validateModule = dirPath => {
       const basename = nodeHelpers.file.getFileBasename(el);
 
       if (fileExt !== 'js') throw Error(`${el}, invalid file extension`);
-      if (/[A-Z]/.test(basename[0])) {
-        throw new Error(`${el}, cannot have capitalized name`);
-      }
 
       if (basename[0] === '_') {
         if (basename !== '_helpers') throw new Error(`${el}, invalid _ file`);
