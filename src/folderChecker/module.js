@@ -11,23 +11,31 @@ const validUnderscoreFolders = [
   '_fonts'
 ];
 
-module.exports.validateModule = dirPath => {
-  const folders = helpers.getAllFolders(dirPath, true);
-  helpers.validateFolders([dirPath], { canContainUnderscoreFolders: true });
-
-  folders.forEach(el => {
-    const name = el.split('/').pop();
-
-    if (name[0] === '_' && !validUnderscoreFolders.includes(name)) {
-      throw new Error(`${el}, invalid _ folder`);
-    }
-  });
-
-  const moduleFolders = folders.concat(dirPath)
+function getChildModules(dirPath) {
+  const folders = helpers.getAllFolders(dirPath);
+  const moduleFolders = folders
     .filter(el => /[A-Z]/.test(el.split('/').pop()[0]));
 
-  moduleFolders.forEach(el => {
+  if (moduleFolders.length === 0) return [];
+
+  return moduleFolders.reduce((result, el) => {
+    return result.concat(getChildModules(el));
+  }, moduleFolders);
+}
+
+module.exports.validateModule = dirPath => {
+  const moduleFolders = getChildModules(dirPath);
+
+  moduleFolders.concat(dirPath).forEach(el => {
     helpers.validateFolders([el], { canContainUnderscoreFolders: true });
+
+    helpers.getAllFolders(el).forEach(el => {
+      const name = el.split('/').pop();
+
+      if (name[0] === '_' && !validUnderscoreFolders.includes(name)) {
+        throw new Error(`${el}, invalid _ folder`);
+      }
+    });
 
     helpers.getAllFiles(el).forEach(el => {
       const fileExt = nodeHelpers.file.getFileExtension(el);

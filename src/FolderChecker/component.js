@@ -1,6 +1,6 @@
 const helpers = require('./_helpers');
 
-module.exports.validateUndercoreComponentsFolder = folderPath => {
+module.exports.validateUnderscoreComponentsFolder = folderPath => {
   const folders = helpers.getAllFolders(folderPath, true);
 
   helpers.validateFolders([folderPath], { canContainUnderscoreFolders: true });
