@@ -55,7 +55,3 @@ module.exports.validateFolders = (folders, options = {}) => {
     }
   });
 };
-
-module.exports.getFileExtension = filePath => {
-  return filePath.split('/').pop().split('.').pop();
-};

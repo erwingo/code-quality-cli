@@ -1,4 +1,5 @@
 const helpers = require('./_helpers');
+const nodeHelpers = require('node-helpers');
 
 const validUnderscoreFolders = [
   '_tests',
@@ -29,7 +30,7 @@ module.exports.validateModule = dirPath => {
     helpers.validateFolders([el], { canContainUnderscoreFolders: true });
 
     helpers.getAllFiles(el).forEach(el => {
-      const fileExt = helpers.getFileExtension(el);
+      const fileExt = nodeHelpers.file.getFileExtension(el);
       if (fileExt !== 'js') throw Error(`${el}, invalid file extension`);
       if (/[A-Z]/.test(el.split('/').pop()[0])) {
         throw new Error(`${el}, cannot have capitalized name`);

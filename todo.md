@@ -8,6 +8,7 @@
     - only js files, folders and _helpers can be here
   - _vendors (only external libraries/frameworks can be here)
 - _components folders
+- Module folders
 
 # TODO
 - module and component checker

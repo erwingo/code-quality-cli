@@ -2,14 +2,14 @@ const assert = require('assert');
 const path = require('path');
 const { validateModule } = require('../module');
 
-describe.only('Module', () => {
+describe('Module', () => {
   it('should pass all validations', () => {
     assert.doesNotThrow(() => {
       validateModule(path.join(__dirname, 'examples/ModuleGood1'));
       validateModule(path.join(__dirname, 'examples/ModuleGood2'));
       validateModule(path.join(__dirname, 'examples/ModuleGood3'));
       validateModule(path.join(__dirname, 'examples/ModuleGood4'));
-    }, err => null);
+    });
   });
 
   it('cannot be empty', () => {
