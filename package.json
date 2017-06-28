@@ -4,7 +4,9 @@
   "description": "Code quality cli tools that will help you to keep your code organized and clean.",
   "main": "src/index.js",
   "scripts": {
-    "test": "npm run lint:js && nyc --reporter=html --reporter=text mocha ./src/**/_tests/index.js",
+    "test": "npm run clean:ds_store && npm run lint:js && npm run test:coverage",
+    "test:coverage": "nyc --reporter=html --reporter=text mocha ./src/**/_tests/index.js",
+    "clean:ds_store": "find . -name .DS_Store -delete",
     "lint:js": "eslint ./src"
   },
   "author": "Erwin Gaitan O <erwingaitano@gmail.com>",

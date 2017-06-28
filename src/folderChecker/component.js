@@ -3,8 +3,15 @@ const helpers = require('./_helpers');
 module.exports.validateUnderscoreComponentsFolder = folderPath => {
   const folders = helpers.getAllFolders(folderPath, true);
 
-  helpers.validateFolders([folderPath], { canContainUnderscoreFolders: true });
-  helpers.validateFolders(folders, { canContainUnderscoreFolders: true });
+  helpers.validateFolders(
+    [folderPath],
+    { canContainUnderscoreFolders: true, canContainUnderscoreFiles: true }
+  );
+
+  helpers.validateFolders(
+    folders,
+    { canContainUnderscoreFolders: true, canContainUnderscoreFiles: true }
+  );
 
   const underscoreComponentFolders = folders
     .filter(el => /\/_components$/.test(el))
@@ -14,10 +21,6 @@ module.exports.validateUnderscoreComponentsFolder = folderPath => {
     .reduce((result, el) => {
       const folders = helpers.getAllFolders(el).filter(el => el.split('/').pop()[0] !== '_');
       const files = helpers.getAllFiles(el);
-
-      files.forEach(el => {
-        if (!/\.js$/.test(el)) throw new Error(`${el}, invalid file`);
-      });
 
       return {
         componentFolders: result.componentFolders.concat(folders),
@@ -40,6 +43,38 @@ module.exports.validateUnderscoreComponentsFolder = folderPath => {
   componentFolders.concat(fileComponents).forEach(el => {
     if (/[A-Z]/.test(el.split('/').pop()[0])) {
       throw new Error(`${el}, component name should not be capitalized`);
+    }
+  });
+
+  componentFolders.concat(underscoreComponentFolders).forEach(el => {
+    let containUnderscoreHelpersFolder;
+    let containUnderscoreTestsFolder;
+
+    helpers.getAllFolders(el).forEach(el => {
+      const name = el.split('/').pop();
+
+      if (name === '_helpers') containUnderscoreHelpersFolder = true;
+      else if (name === '_tests') containUnderscoreTestsFolder = true;
+    });
+
+    let containUnderscoreHelpersFile;
+    let containUnderscoreTestsFile;
+
+    helpers.getAllFiles(el).forEach(el => {
+      const name = el.split('/').pop();
+
+      if (!/\.js$/.test(name)) throw new Error(`${el}, invalid file`);
+
+      if (name === '_helpers.js') containUnderscoreHelpersFile = true;
+      else if (name === '_tests.js') containUnderscoreTestsFile = true;
+    });
+
+    if (containUnderscoreHelpersFile && containUnderscoreHelpersFolder) {
+      throw new Error(`${el}, cannot have both file and folder _helpers`);
+    }
+
+    if (containUnderscoreTestsFile && containUnderscoreTestsFolder) {
+      throw new Error(`${el}, cannot have both file and folder _tests`);
     }
   });
 };

@@ -10,6 +10,8 @@ describe('_components', () => {
       validateUnderscoreComponentsFolder(path.join(__dirname, 'examples/_componentsGood3'));
       validateUnderscoreComponentsFolder(path.join(__dirname, 'examples/_componentsGood4'));
       validateUnderscoreComponentsFolder(path.join(__dirname, 'examples/_componentsGood5'));
+      validateUnderscoreComponentsFolder(path.join(__dirname, 'examples/_componentsGood6'));
+      validateUnderscoreComponentsFolder(path.join(__dirname, 'examples/_componentsGood7'));
     });
   });
 
@@ -54,6 +56,24 @@ describe('_components', () => {
       err => err.message
         .includes('_componentsBad4/sidebar/_components/footer, ' +
           'component can only contain _ folders')
+    );
+  });
+
+  it('should throw because it contains both folder and file _helpers', () => {
+    assert.throws(
+      () =>
+        validateUnderscoreComponentsFolder(path.join(__dirname, 'examples/_componentsBad5')),
+      err => err.message
+        .includes('_componentsBad5/sidebar, cannot have both file and folder _helpers')
+    );
+  });
+
+  it('should throw because it contains both folder and file _tests', () => {
+    assert.throws(
+      () =>
+        validateUnderscoreComponentsFolder(path.join(__dirname, 'examples/_componentsBad6')),
+      err => err.message
+        .includes('_componentsBad6/sidebar, cannot have both file and folder _tests')
     );
   });
 });
