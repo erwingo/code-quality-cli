@@ -5,19 +5,19 @@ const { validateModule } = require('../module');
 describe('Module', () => {
   it('should pass all validations', () => {
     assert.doesNotThrow(() => {
-      validateModule(path.join(__dirname, 'examples/ModuleGood1'));
-      validateModule(path.join(__dirname, 'examples/ModuleGood2'));
-      validateModule(path.join(__dirname, 'examples/ModuleGood3'));
-      validateModule(path.join(__dirname, 'examples/ModuleGood4'));
-      validateModule(path.join(__dirname, 'examples/ModuleGood5'));
+      validateModule(path.join(__dirname, 'examples/moduleGood1'));
+      validateModule(path.join(__dirname, 'examples/moduleGood2'));
+      validateModule(path.join(__dirname, 'examples/moduleGood3'));
+      validateModule(path.join(__dirname, 'examples/moduleGood4'));
+      validateModule(path.join(__dirname, 'examples/moduleGood5'));
     });
   });
 
   it('cannot be empty', () => {
     assert.throws(
       () =>
-        validateModule(path.join(__dirname, 'examples/ModuleBad1')),
-      err => err.message.includes('ModuleBad1, cannot be empty')
+        validateModule(path.join(__dirname, 'examples/moduleBad1')),
+      err => err.message.includes('moduleBad1, cannot be empty')
     );
   });
 
@@ -25,7 +25,7 @@ describe('Module', () => {
       (_tests, _css, _helpers, _components, _media, _vendors, _fonts)`, () => {
     assert.throws(
       () =>
-        validateModule(path.join(__dirname, 'examples/ModuleBad2')),
+        validateModule(path.join(__dirname, 'examples/moduleBad2')),
       err => err.message.includes('_lul, invalid _ folder')
     );
   });
@@ -33,40 +33,49 @@ describe('Module', () => {
   it('cannot have modules with _ files', () => {
     assert.throws(
       () =>
-        validateModule(path.join(__dirname, 'examples/ModuleBad3')),
-      err => err.message.includes('ModuleBad3/_awesomething.js, invalid _ file')
+        validateModule(path.join(__dirname, 'examples/moduleBad3')),
+      err => err.message.includes('moduleBad3/_awesomething.js, invalid _ file')
     );
 
     assert.throws(
       () =>
-        validateModule(path.join(__dirname, 'examples/ModuleBad3a')),
-      err => err.message.includes('ModuleBad3a/dashboard/_awesomething.js, invalid _ file')
+        validateModule(path.join(__dirname, 'examples/moduleBad3a')),
+      err => err.message.includes('moduleBad3a/dashboard/_awesomething.js, invalid _ file')
     );
   });
 
   it('cannot have modules with non js files', () => {
     assert.throws(
       () =>
-        validateModule(path.join(__dirname, 'examples/ModuleBad4')),
-      err => err.message.includes('ModuleBad4/lul.css, invalid file extension')
+        validateModule(path.join(__dirname, 'examples/moduleBad4')),
+      err => err.message.includes('moduleBad4/lul.css, invalid file extension')
     );
   });
 
   it('cannot have modules with capitalized names', () => {
     assert.throws(
       () =>
-        validateModule(path.join(__dirname, 'examples/ModuleBad5')),
+        validateModule(path.join(__dirname, 'examples/moduleBad5')),
       err =>
-        err.message.includes('ModuleBad5/dashboard/BannerArea, cannot have capitalized name')
+        err.message.includes('moduleBad5/dashboard/BannerArea, cannot have capitalized name')
     );
   });
 
   it('cannot have modules with both file and folder _helpers', () => {
     assert.throws(
       () =>
-        validateModule(path.join(__dirname, 'examples/ModuleBad6')),
+        validateModule(path.join(__dirname, 'examples/moduleBad6')),
       err =>
-        err.message.includes('ModuleBad6/dashboard, cannot have both file and folder _helpers')
+        err.message.includes('moduleBad6/dashboard, cannot have both file and folder _helpers')
+    );
+  });
+
+  it('cannot have modules with both file and folder _tests', () => {
+    assert.throws(
+      () =>
+        validateModule(path.join(__dirname, 'examples/moduleBad7')),
+      err =>
+        err.message.includes('moduleBad7/dashboard, cannot have both file and folder _tests')
     );
   });
 });

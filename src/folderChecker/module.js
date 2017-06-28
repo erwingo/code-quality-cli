@@ -1,4 +1,4 @@
-const helpers = require('../_helpers');
+const helpers = require('./_helpers');
 const nodeHelpers = require('node-helpers');
 
 const validUnderscoreFolders = [
@@ -11,6 +11,7 @@ const validUnderscoreFolders = [
   '_fonts'
 ];
 
+const validUnderscoreFiles = ['_tests', '_helpers'];
 const validExtensions = ['js', 'json'];
 
 function getChildModules(dirPath) {
@@ -35,6 +36,7 @@ module.exports.validateModule = (dirPath, ignoreFolders = [], ignoreFiles = []) 
       );
 
       let containUnderscoreHelpersFolder;
+      let containUnderscoreTestsFolder;
 
       helpers.getAllFolders(el)
         .filter(el => ignoreFolders.every(el2 => el.indexOf(el2) !== 0))
@@ -44,6 +46,7 @@ module.exports.validateModule = (dirPath, ignoreFolders = [], ignoreFiles = []) 
           if (name[0] === '_') {
             if (!validUnderscoreFolders.includes(name)) throw new Error(`${el}, invalid _ folder`);
             if (name === '_helpers') containUnderscoreHelpersFolder = true;
+            else if (name === '_tests') containUnderscoreTestsFolder = true;
           }
 
           if (/[A-Z]/.test(name[0])) {
@@ -52,6 +55,7 @@ module.exports.validateModule = (dirPath, ignoreFolders = [], ignoreFiles = []) 
         });
 
       let containUnderscoreHelpersFile;
+      let containUnderscoreTestsFile;
 
       helpers.getAllFiles(el)
         .filter(el => ignoreFiles.every(el2 => el.indexOf(el2) !== 0))
@@ -62,13 +66,19 @@ module.exports.validateModule = (dirPath, ignoreFolders = [], ignoreFiles = []) 
           if (!validExtensions.includes(fileExt)) throw Error(`${el}, invalid file extension`);
 
           if (basename[0] === '_') {
-            if (basename !== '_helpers') throw new Error(`${el}, invalid _ file`);
-            else containUnderscoreHelpersFile = true;
+            if (!validUnderscoreFiles.includes(basename)) throw new Error(`${el}, invalid _ file`);
+
+            if (basename === '_helpers') containUnderscoreHelpersFile = true;
+            else if (basename === '_tests') containUnderscoreTestsFile = true;
           }
         });
 
       if (containUnderscoreHelpersFile && containUnderscoreHelpersFolder) {
         throw new Error(`${el}, cannot have both file and folder _helpers`);
+      }
+
+      if (containUnderscoreTestsFile && containUnderscoreTestsFolder) {
+        throw new Error(`${el}, cannot have both file and folder _tests`);
       }
     });
 };
