@@ -1,6 +1,6 @@
 const assert = require('assert');
 const path = require('path');
-const helpers = require('../../_helpers');
+const helpers = require('../_helpers');
 const { validateFilename } = require('../../folderChecker/filename');
 
 describe('filenames/folders', () => {
@@ -15,8 +15,15 @@ describe('filenames/folders', () => {
           path.join(__dirname, 'examples'), true
         );
 
-        files.map(el => el.split('/').pop()).forEach(validateFilename);
-        folders.map(el => el.split('/').pop()).forEach(el => validateFilename(el, true));
+        files
+          .filter(el => el.indexOf('/examples/project/') === -1)
+          .map(el => el.split('/').pop())
+          .forEach(validateFilename);
+
+        folders
+          .filter(el => el.indexOf('/examples/project/') === -1)
+          .map(el => el.split('/').pop())
+          .forEach(el => validateFilename(el, true));
       }
     );
   });

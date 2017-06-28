@@ -1,4 +1,4 @@
-const helpers = require('../_helpers');
+const helpers = require('./_helpers');
 
 module.exports.validateUnderscoreCssFolder = folderPath => {
   const { files, folders } = helpers.getAllFilesAndFolders(folderPath, true);
