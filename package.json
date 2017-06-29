@@ -7,21 +7,36 @@
     "code-quality": "src/index.js"
   },
   "scripts": {
-    "test": "npm run clean:ds_store && npm run lint:js && npm run test:coverage",
-    "test:coverage": "nyc --reporter=html --reporter=text mocha ./src/**/_tests/index.js",
-    "clean:ds_store": "find . -name .DS_Store -delete",
-    "lint:js": "eslint ./src"
+    "precommit": "npm run test",
+    "prepush": "npm run test",
+    "pretest": "npm run clean && npm run lint",
+    "test": "mocha ./src/**/_tests/index.js",
+    "test-watch": "npm run test -- -w",
+    "test-coverage": "nyc --reporter=html --reporter=text npm run test",
+    "test-coverage-watch": "onchange './src/**/*.js' -- npm run test-coverage",
+    "clean": "find . -name .DS_Store -delete",
+    "lint": "eslint ./src"
   },
   "author": "Erwin Gaitan O <erwingaitano@gmail.com>",
   "license": "ISC",
   "devDependencies": {
+    "husky": "^0.14.1",
     "mocha": "^3.4.2",
-    "nyc": "^11.0.2"
+    "nyc": "^11.0.2",
+    "onchange": "^3.2.1"
   },
   "dependencies": {
     "commander": "^2.10.0",
     "fs-extra": "^3.0.1",
     "glob": "^7.1.2",
     "node-helpers": "git+https://github.com/erwingaitano/node-helpers.git"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erwingaitano/code-quality-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/erwingaitano/code-quality-cli/issues"
+  },
+  "homepage": "https://github.com/erwingaitano/code-quality-cli#readme"
 }

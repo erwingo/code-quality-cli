@@ -1,3 +1,5 @@
+# FOLDER CHECKER
+
 ```
 Dashboard (module)
 |-- index.js (entry file)
@@ -29,3 +31,23 @@ Dashboard (module)
 - you should be able to type `code-quality [folderPath]` and start inspecting
 - should allow to exclude/include folders/files using glob pattern
 - should allow config things go in a `.codeQuality` file located at the root
+
+# REQUIRE CHECKER
+
+The idea of this module is to verify that all files are being required so that we don't
+have any file hanging there for the sake of only being there.
+
+- if there are js/json files not being required, an error should be thrown listing them
+- if there are files not being required an error should be thrown and list them:
+  - js, json
+  - css, scss
+  - png, jpg, mp4
+  - svg, woff
+
+# SEMANTICS CHECKER
+
+The idea of this module is to verify that the code inside files is being
+used (dead code verification), the code is in the correct section (folder hierarchy)
+so that the code is well spread and in the right place at all times.
+For example, if you have a helpers function that is only used in one module, it should
+be inside that module only, not in any parents module.
