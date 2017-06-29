@@ -37,7 +37,6 @@ Dashboard (module)
 The idea of this module is to verify that all files are being required so that we don't
 have any file hanging there for the sake of only being there.
 
-- if there are js/json files not being required, an error should be thrown listing them
 - if there are files not being required an error should be thrown and list them:
   - js, json
   - css, scss
