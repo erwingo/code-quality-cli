@@ -1,6 +1,6 @@
 {
   "name": "code-quality-cli",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Code quality cli tools that will help you to keep your code organized and clean.",
   "main": "src/index.js",
   "bin": {
