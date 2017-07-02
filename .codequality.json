@@ -1,0 +1,30 @@
+{
+  "folderChecker": {
+    "ignoreFolders": [
+      "node_modules",
+      ".git",
+      ".nyc_output",
+      "coverage",
+      "./src/folderChecker/_tests/examples"
+    ],
+    "ignoreFiles": [
+      ".gitignore",
+      "*.md"
+    ]
+  },
+  "requireChecker": {
+    "ignoreFolders": [
+      "node_modules",
+      ".git",
+      ".nyc_output",
+      "coverage",
+      "./src/folderChecker/_tests/examples",
+      "./src/requireChecker/_tests/examples"
+    ],
+    "ignoreFiles": [
+      "./src/index.js",
+      "./src/requireChecker/_tests/*.js",
+      "./src/folderChecker/_tests/*.js"
+    ]
+  }
+}
