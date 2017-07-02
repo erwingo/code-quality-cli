@@ -29,6 +29,7 @@
     "commander": "^2.10.0",
     "fs-extra": "^3.0.1",
     "glob": "^7.1.2",
+    "lodash": "^4.17.4",
     "node-helpers": "git+https://github.com/erwingaitano/node-helpers.git"
   },
   "repository": {

@@ -15,6 +15,7 @@
 - change example modules folder to lowercase
 
 # TODO
+  - add 2 different commands for requirechecker and folderchecker
   - require checker
   - semantics checker
   - should be able to tell external dependencies of modules and components.

@@ -16,7 +16,8 @@ function regexGlobalWithCaptureGroups(regex, string) {
 
 module.exports.run = (rootPath, ignoreFolders = [], ignoreFiles = []) => {
   const jsFiles = helpers.getAllFiles(rootPath, true)
-    .filter(el => nodeHelpers.file.getFileExtension(el) === 'js');
+    .filter(el => nodeHelpers.file.getFileExtension(el) === 'js')
+    .filter(el => !ignoreFolders.some(el2 => el.indexOf(el2) === 0));
 
   const requiredFiles = jsFiles
     .reduce((result, el) => {
