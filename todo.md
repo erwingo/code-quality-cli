@@ -13,10 +13,10 @@
 - ignore files
 - test the folderChecker program
 - change example modules folder to lowercase
+- require checker
+- add 2 different commands for requirechecker and folderchecker
 
 # TODO
-  - add 2 different commands for requirechecker and folderchecker
-  - require checker
   - semantics checker
   - should be able to tell external dependencies of modules and components.
     For example, if a component called Sidebar used a helper function outside
