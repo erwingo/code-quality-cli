@@ -24,7 +24,7 @@
       "max-line-length": [true, 100],
       "no-consecutive-blank-lines": true,
       "no-inferrable-types": true,
-      "no-null-keyword": true,
+      // "no-null-keyword": true,
       "number-literal-format": true,
       "one-line": [
         true,

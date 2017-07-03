@@ -1,9 +1,12 @@
 import * as fs from 'fs-extra';
 import * as helpers from './_helpers.js';
 import * as componentChecker from './component';
-import * as filenameChecker from './filename';
-import * as moduleChecker from './module';
-import * as singleFolderChecker from './singleFolder';
+// import * as filenameChecker from './filename';
+const filenameChecker = require('./filename');
+// import * as moduleChecker from './module';
+const moduleChecker = require('./module');
+// import * as singleFolderChecker from './singleFolder';
+const singleFolderChecker = require('./singleFolder');
 
 export function run(rootPath: string,
                     ignoreFolders: string[] = [],
@@ -15,7 +18,8 @@ export function run(rootPath: string,
     throw new Error(`${rootPath}, should be a directory`);
   }
 
-  let { files, folders } = helpers.getAllFilesAndFolders(rootPath, true);
+  let { files, folders }: { files: string[], folders: string[] } =
+    helpers.getAllFilesAndFolders(rootPath, true);
 
   files = files
     .filter(el => !ignoreFolders.some(el2 => el.indexOf(el2) === 0))

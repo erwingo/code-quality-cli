@@ -1,42 +1,55 @@
 const helpers = require('./_helpers');
 
-module.exports.validateUnderscoreCssFolder = folderPath => {
-  const { files, folders } = helpers.getAllFilesAndFolders(folderPath, true);
-  if (files.length === 0) throw new Error(`${folderPath}, should have files`);
+interface FilesFolders {
+  files: string[];
+  folders: string[];
+}
+
+module.exports.validateUnderscoreCssFolder = (folderPath: string) => {
+  const { files, folders }: FilesFolders = helpers.getAllFilesAndFolders(folderPath, true);
+
+  if (files.length === 0) {
+    throw new Error(`${folderPath}, should have files`);
+  }
+
   helpers.validateFolders(folders);
 
   files.forEach(el => {
-    if (!/\.(css|scss)$/.test(el)) throw new Error(`${el}, only css/scss files`);
+    if (!/\.(css|scss)$/.test(el)) {
+      throw new Error(`${el}, only css/scss files`);
+    }
   });
 };
 
-module.exports.validateUnderscoreFontsFolder = folderPath => {
-  const { folders } = helpers.getAllFilesAndFolders(folderPath, true);
+module.exports.validateUnderscoreFontsFolder = (folderPath: string) => {
+  const { folders }: FilesFolders = helpers.getAllFilesAndFolders(folderPath, true);
 
   helpers.validateFolders(folders, { mustContainFoldersOrFilesNotBoth: true });
   helpers.validateFolders([folderPath], { onlyFolders: true });
 
   folders.forEach(el => {
-    const filesAndFolders = helpers.getAllFilesAndFolders(el);
+    const filesAndFolders: { files: string[], folders: string[] } =
+      helpers.getAllFilesAndFolders(el);
+
     const folders = filesAndFolders.folders;
     const files = filesAndFolders.files.map(el => el.split('/').pop());
 
-    if (files.length === 0 && folders.length > 0) return;
+    if (files.length === 0 && folders.length > 0) { return; }
     helpers.validateFolders(folders, { mustContainFoldersOrFilesNotBoth: true });
 
     if (files.includes('index.scss')) {
       const hasGoodFontFiles = files
         .filter(el => el !== 'index.scss')
-        .every(el => /\.woff$/.test(el));
+        .every(el => /\.woff$/.test(el || ''));
 
-      if (hasGoodFontFiles) return;
+      if (hasGoodFontFiles) { return; }
       throw new Error(`${el}, should only contain woff files`);
     } else if (files.includes('index.json')) {
       const hasGoodFontFiles = files
         .filter(el => el !== 'index.json')
-        .every(el => /\.svg$/.test(el));
+        .every(el => /\.svg$/.test(el || ''));
 
-      if (hasGoodFontFiles) return;
+      if (hasGoodFontFiles) { return; }
       throw new Error(`${el}, should only contain svg files`);
     } else {
       throw new Error(`${el}, should include a index.(json|scss) file`);
@@ -44,36 +57,36 @@ module.exports.validateUnderscoreFontsFolder = folderPath => {
   });
 };
 
-module.exports.validateUnderscoreMediaFolder = folderPath => {
-  const { files, folders } = helpers.getAllFilesAndFolders(folderPath, true);
+module.exports.validateUnderscoreMediaFolder = (folderPath: string) => {
+  const { files, folders }: FilesFolders = helpers.getAllFilesAndFolders(folderPath, true);
 
   helpers.validateFolders([folderPath]);
   helpers.validateFolders(folders);
 
   files.map(el => el.split('/').pop()).forEach(el => {
-    if (!/\.(jpg|png|mp4)$/.test(el)) throw new Error(`${el}, invalid file`);
+    if (!/\.(jpg|png|mp4)$/.test(el || '')) { throw new Error(`${el}, invalid file`); }
   });
 };
 
-module.exports.validateUnderscoreHelpersFolder = folderPath => {
-  const { files, folders } = helpers.getAllFilesAndFolders(folderPath, true);
+module.exports.validateUnderscoreHelpersFolder = (folderPath: string) => {
+  const { files, folders }: FilesFolders = helpers.getAllFilesAndFolders(folderPath, true);
 
   helpers.validateFolders([folderPath], { canContainUnderscoreFolders: true });
   helpers.validateFolders(folders, { canContainUnderscoreFolders: true });
 
   // Check all files are js
   files.map(el => el.split('/').pop()).forEach(el => {
-    if (!/\.js$/.test(el)) throw new Error(`${el}, invalid file`);
+    if (!/\.js$/.test(el || '')) { throw new Error(`${el}, invalid file`); }
   });
 
   // Check folders can only contain _helpers but only if other files at same level
   folders.concat([folderPath]).forEach(el => {
     const name = el.split('/').pop();
-    if (el !== folderPath && name[0] === '_' && name !== '_helpers') {
+    if (name && el !== folderPath && name[0] === '_' && name !== '_helpers') {
       throw new Error(`${el}, only _ folders allowed are _helpers`);
     }
 
-    const filesAndFolders = helpers.getAllFilesAndFolders(el);
+    const filesAndFolders: FilesFolders = helpers.getAllFilesAndFolders(el);
     const files = filesAndFolders.files;
     const folders = filesAndFolders.folders.map(el => el.split('/').pop());
 
@@ -86,8 +99,8 @@ module.exports.validateUnderscoreHelpersFolder = folderPath => {
   });
 };
 
-module.exports.validateUnderscoreVendorsFolder = folderPath => {
-  const { folders } = helpers.getAllFilesAndFolders(folderPath, true);
+module.exports.validateUnderscoreVendorsFolder = (folderPath: string) => {
+  const { folders }: FilesFolders = helpers.getAllFilesAndFolders(folderPath, true);
   helpers.validateFolders([folderPath], { onlyFolders: true });
   helpers.validateFolders(folders);
 };

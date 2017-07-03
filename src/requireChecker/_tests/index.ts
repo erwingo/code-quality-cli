@@ -1,5 +1,5 @@
-const path = require('path');
-const assert = require('assert');
+import * as assert from 'assert';
+import * as path from 'path';
 const requireChecker = require('../index');
 
 describe('requireChecker', () => {

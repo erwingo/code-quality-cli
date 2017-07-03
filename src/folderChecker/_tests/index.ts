@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 describe('Module FolderChecker', () => {
   require('./filename');
   require('./singleFolder');

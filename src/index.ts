@@ -2,11 +2,19 @@
 
 import * as commander from 'commander';
 import * as fs from 'fs';
-import * as glob from 'glob';
-import * as _ from 'lodash';
+// import * as glob from 'glob';
+const glob = require('glob');
+// import * as _ from 'lodash';
+const _ = require('lodash');
 import * as path from 'path';
 import * as folderChecker from './folderChecker';
 import * as requireChecker from './requireChecker';
+
+interface ProgramOptions {
+  configFile?: string;
+  ignoreFolders?: string;
+  ignoreFiles?: string;
+}
 
 // TODO: this is a vital function and has to work!
 let lol: string = 'omg' + 4;
@@ -24,7 +32,9 @@ function getCorrectRootPath(initialRootPath: string) {
   return rootPath;
 }
 
-function getIgnoreFilesFolders(rootPath, namespace, options) {
+function getIgnoreFilesFolders(rootPath: string,
+                               namespace: string,
+                               options: ProgramOptions = {}) {
   let config;
   let ignoreFoldersGlobPattern;
   let ignoreFilesGlobPattern;
@@ -63,20 +73,20 @@ function getIgnoreFilesFolders(rootPath, namespace, options) {
     }
   }
 
-  const ignoreFolders = [];
-  const ignoreFiles = [configFilePath];
+  const ignoreFolders: string[] = [];
+  const ignoreFiles: string[] = [configFilePath];
 
   if (ignoreFoldersGlobPattern) {
     ignoreFolders.push(
-      ...glob.sync(ignoreFoldersGlobPattern, { cwd: rootPath })
-          .map(el => path.resolve(el))
+      ...(glob.sync(ignoreFoldersGlobPattern, { cwd: rootPath }) as string[])
+              .map(el => path.resolve(el))
     );
   }
 
   if (ignoreFilesGlobPattern) {
     ignoreFiles.push(
-      ...glob.sync(ignoreFilesGlobPattern, { cwd: rootPath })
-          .map(el => path.resolve(el))
+      ...(glob.sync(ignoreFilesGlobPattern, { cwd: rootPath }) as string[])
+              .map(el => path.resolve(el))
     );
   }
 
@@ -101,7 +111,7 @@ commander
     '-c, --config-file <path>',
     'path to the config json file, (defaults to ./.codequality.json)'
   )
-  .action((rootPath, options) => {
+  .action((rootPath: string, options: ProgramOptions) => {
     try {
       const rootPath = getCorrectRootPath(commander.args[0]);
 
@@ -130,7 +140,7 @@ commander
     '-c, --config-file <path>',
     'path to the config json file, (defaults to ./.codequality.json)'
   )
-  .action((rootPath, options) => {
+  .action((rootPath: string, options: ProgramOptions) => {
     try {
       const rootPath = getCorrectRootPath(commander.args[0]);
 
