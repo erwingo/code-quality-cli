@@ -1,0 +1,52 @@
+{
+    "defaultSeverity": "error",
+    "jsRules": {},
+    "rules": {
+      "ordered-imports": [
+        true,
+        {
+          "import-sources-order": "case-insensitive",
+          "named-imports-order": "case-insensitive"
+        }
+      ],
+      "align": [true, "parameters", "statements"],
+      "arrow-parens": [true, "ban-single-arg-parens"],
+      "arrow-return-shorthand": true,
+      "class-name": true,
+      "comment-format": [true, "check-space"],
+      "curly": true,
+      "eofline": true,
+      "indent": [true, "spaces", 2],
+      "jsdoc-format": true,
+      "max-line-length": [true, 100],
+      "no-consecutive-blank-lines": true,
+      "no-inferrable-types": true,
+      "no-null-keyword": true,
+      "number-literal-format": true,
+      "one-line": [
+        true,
+        "check-catch",
+        "check-finally",
+        "check-else",
+        "check-open-brace",
+        "check-whitespace"
+      ],
+      "quotemark": [
+        true,
+        "single"
+      ],
+      "semicolon": [true, "always", "ignore-bound-class-methods"],
+      "space-before-function-paren": [
+        true,
+        { "anonymous": "never", "named": "never", "asyncArrow": "never"}
+      ],
+      "no-string-literal": true,
+      "no-switch-case-fall-through": true,
+      "no-trailing-whitespace": true,
+      "no-var-keyword": true,
+      "prefer-const": true,
+      "prefer-object-spread": true,
+      "triple-equals": true
+    },
+    "rulesDirectory": []
+}
