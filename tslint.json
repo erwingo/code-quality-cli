@@ -1,5 +1,8 @@
 {
     "defaultSeverity": "error",
+    "extends": [
+      "tslint-eslint-rules"
+    ],
     "jsRules": {},
     "rules": {
       "ordered-imports": [
@@ -43,10 +46,49 @@
       "no-string-literal": true,
       "no-switch-case-fall-through": true,
       "no-trailing-whitespace": true,
+
+      // doesn't do anything
+      "no-unused-variable": true,
+      "no-unused-expression": true,
+      "no-irregular-whitespace": true,
+      "whitespace": [
+        true,
+        "check-branch",
+        "check-decl",
+        "check-operator",
+        "check-module",
+        "check-separator",
+        "check-type",
+        "check-typecast",
+        "check-preblock"
+      ],
+
       "no-var-keyword": true,
       "prefer-const": true,
       "prefer-object-spread": true,
-      "triple-equals": true
+      "triple-equals": true,
+      "typedef-whitespace": [
+        true,
+        {
+          "call-signature": "nospace",
+          "index-signature": "nospace",
+          "parameter": "nospace",
+          "property-declaration": "nospace",
+          "variable-declaration": "nospace"
+        },
+        {
+          "call-signature": "onespace",
+          "index-signature": "onespace",
+          "parameter": "onespace",
+          "property-declaration": "onespace",
+          "variable-declaration": "onespace"
+        }
+      ],
+
+      // ESLINT
+
+      "no-multi-spaces": true,
+      "no-unused-vars": true
     },
     "rulesDirectory": []
 }

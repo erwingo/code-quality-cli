@@ -51,4 +51,4 @@ export function run(rootPath: string,
 
   folders.filter(el => el.split('/').pop() === '_components')
     .forEach(componentChecker.validateUnderscoreComponentsFolder);
-};
+}

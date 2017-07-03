@@ -22,6 +22,7 @@
       "./src/requireChecker/_tests/examples"
     ],
     "ignoreFiles": [
+      "./lib/index.js",
       "./src/index.js",
       "./src/requireChecker/_tests/*.js",
       "./src/folderChecker/_tests/*.js"

@@ -17,6 +17,15 @@
 - add 2 different commands for requirechecker and folderchecker
 
 # TODO
+  - tslint noUnusedLocals/noUnusedParameters HAS TO WORK PERFECTLY
+  - add a eslint/tslint rule to avoid comments with multispaces:
+    wrong: //      TODO:
+    good: // TODO: this is the todo
+    good:
+    /**
+     * TODO: This is multiline todo bitch what do u think about
+     * hommy?
+     */
   - start adapting typeScript
   - allow verbose to track what folders where analyzed
     - it will be a directory tree containing all the files in the project.

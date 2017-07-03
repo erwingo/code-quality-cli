@@ -8,6 +8,10 @@ import * as path from 'path';
 import * as folderChecker from './folderChecker';
 import * as requireChecker from './requireChecker';
 
+// TODO: this is a vital function and has to work!
+let lol: string = 'omg' + 4;
+lol = 'erwerwer';
+
 const version = require('../package.json').version;
 
 function getCorrectRootPath(initialRootPath: string) {
