@@ -1,3 +1,4 @@
+const srcHelpers = require('../_helpers');
 const fs = require('fs-extra');
 const helpers = require('./_helpers');
 const filenameChecker = require('./filename');
@@ -16,6 +17,10 @@ module.exports.run = (rootPath, ignoreFolders = [], ignoreFiles = []) => {
     .filter(el => !ignoreFiles.some(el2 => el.indexOf(el2) === 0));
 
   folders = folders.filter(el => !ignoreFolders.some(el2 => el.indexOf(el2) === 0));
+
+  console.log(JSON.stringify(
+    srcHelpers.generateJsonTree(rootPath, files)
+    , null, 2));
 
   // folders/filenames validations
 

@@ -5,7 +5,8 @@
       ".git",
       ".nyc_output",
       "coverage",
-      "./src/folderChecker/_tests/examples"
+      ".vscode",
+      "./src/**/_tests/examples"
     ],
     "ignoreFiles": [
       ".gitignore",
