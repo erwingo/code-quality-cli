@@ -36,15 +36,16 @@ module.exports.run = (rootPath, ignoreFolders = [], ignoreFiles = [], options = 
       );
     }, []);
 
-  if (options.printTreeAnalyzed) {
-    console.log('RequireChecker Tree Structure Analyzed:\n');
-    console.log(srcHelpers.generateAsciiTree(rootPath, requiredFiles));
-  }
-
-  jsFiles
+  const filesThatNeedsToBeRequired = jsFiles
     .filter(el => !ignoreFiles.includes(el))
-    .forEach(el => {
-      if (requiredFiles.some(el2 => el2.includes(el))) return;
+    .map(el => {
+      if (requiredFiles.some(el2 => el2.includes(el))) return el;
       throw new Error(`${el}, is not being required`);
     });
+
+  if (options.printTreeAnalyzed) {
+    console.log('RequireChecker Tree Structure Analyzed:\n');
+    console.log(srcHelpers.generateAsciiTree(rootPath, filesThatNeedsToBeRequired));
+    console.log();
+  }
 };

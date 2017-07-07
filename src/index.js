@@ -103,7 +103,7 @@ commander
       const { ignoreFolders, ignoreFiles } =
         getIgnoreFilesFolders(rootPath, 'folderChecker', options);
 
-      folderChecker.run(rootPath, ignoreFolders, ignoreFiles);
+      folderChecker.run(rootPath, ignoreFolders, ignoreFiles, { printTreeAnalyzed: true });
     } catch (err) {
       console.error('\n', err.message, '\n\n');
       throw err;
@@ -132,7 +132,7 @@ commander
       const { ignoreFolders, ignoreFiles } =
         getIgnoreFilesFolders(rootPath, 'requireChecker', options);
 
-      requireChecker.run(rootPath, ignoreFolders, ignoreFiles);
+      requireChecker.run(rootPath, ignoreFolders, ignoreFiles, { printTreeAnalyzed: true });
     } catch (err) {
       console.error('\n', err.message, '\n\n');
       throw err;

@@ -21,6 +21,7 @@ module.exports.run = (rootPath, ignoreFolders = [], ignoreFiles = [], options = 
   if (options.printTreeAnalyzed) {
     console.log('FolderChecker Tree Structure Analyzed:\n');
     console.log(srcHelpers.generateAsciiTree(rootPath, files));
+    console.log();
   }
 
   // folders/filenames validations
