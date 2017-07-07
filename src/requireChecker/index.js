@@ -1,5 +1,5 @@
-const fs = require('fs-extra');
 const path = require('path');
+const fs = require('fs-extra');
 const nodeHelpers = require('node-helpers');
 const helpers = require('../folderChecker/_helpers');
 const srcHelpers = require('../_helpers');

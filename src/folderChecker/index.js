@@ -1,5 +1,5 @@
-const srcHelpers = require('../_helpers');
 const fs = require('fs-extra');
+const srcHelpers = require('../_helpers');
 const helpers = require('./_helpers');
 const filenameChecker = require('./filename');
 const componentChecker = require('./component');
