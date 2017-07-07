@@ -6,7 +6,7 @@ const componentChecker = require('./component');
 const moduleChecker = require('./module');
 const singleFolderChecker = require('./singleFolder');
 
-module.exports.run = (rootPath, ignoreFolders = [], ignoreFiles = []) => {
+module.exports.run = (rootPath, ignoreFolders = [], ignoreFiles = [], options = {}) => {
   if (!fs.pathExistsSync(rootPath)) throw new Error(`${rootPath}, does not exist`);
   if (!fs.statSync(rootPath).isDirectory()) throw new Error(`${rootPath}, should be a directory`);
 
@@ -18,9 +18,10 @@ module.exports.run = (rootPath, ignoreFolders = [], ignoreFiles = []) => {
 
   folders = folders.filter(el => !ignoreFolders.some(el2 => el.indexOf(el2) === 0));
 
-  console.log(JSON.stringify(
-    srcHelpers.generateJsonTree(rootPath, files)
-    , null, 2));
+  if (options.printTreeAnalyzed) {
+    console.log('FolderChecker Tree Structure Analyzed:\n');
+    console.log(srcHelpers.generateAsciiTree(rootPath, files));
+  }
 
   // folders/filenames validations
 

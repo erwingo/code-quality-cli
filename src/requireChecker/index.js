@@ -1,7 +1,8 @@
-const nodeHelpers = require('node-helpers');
 const fs = require('fs-extra');
 const path = require('path');
+const nodeHelpers = require('node-helpers');
 const helpers = require('../folderChecker/_helpers');
+const srcHelpers = require('../_helpers');
 
 function regexGlobalWithCaptureGroups(regex, string) {
   let myArray;
@@ -14,7 +15,7 @@ function regexGlobalWithCaptureGroups(regex, string) {
   return results;
 }
 
-module.exports.run = (rootPath, ignoreFolders = [], ignoreFiles = []) => {
+module.exports.run = (rootPath, ignoreFolders = [], ignoreFiles = [], options = {}) => {
   const jsFiles = helpers.getAllFiles(rootPath, true)
     .filter(el => nodeHelpers.file.getFileExtension(el) === 'js')
     .filter(el => !ignoreFolders.some(el2 => el.indexOf(el2) === 0));
@@ -34,6 +35,11 @@ module.exports.run = (rootPath, ignoreFolders = [], ignoreFiles = []) => {
             })
       );
     }, []);
+
+  if (options.printTreeAnalyzed) {
+    console.log('RequireChecker Tree Structure Analyzed:\n');
+    console.log(srcHelpers.generateAsciiTree(rootPath, requiredFiles));
+  }
 
   jsFiles
     .filter(el => !ignoreFiles.includes(el))

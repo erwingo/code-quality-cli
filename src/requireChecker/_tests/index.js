@@ -2,7 +2,7 @@ const path = require('path');
 const assert = require('assert');
 const requireChecker = require('../index');
 
-describe('requireChecker', () => {
+describe('Module RequireChecker', () => {
   it('should pass all validations', () => {
     assert.doesNotThrow(
       () => {

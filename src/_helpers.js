@@ -5,6 +5,9 @@ module.exports.generateJsonTree = (rootPath, files) => {
     throw new Error('rootPath must be a string');
   }
 
+  files = [...files];
+  files.sort();
+
   const rootPathName = path.basename(rootPath);
 
   return files
@@ -14,7 +17,7 @@ module.exports.generateJsonTree = (rootPath, files) => {
       const filename = path.basename(el);
       const parentDirDirs = [rootPathName, ...(parentDir === '.' ? [] : parentDir.split('/'))];
 
-      const erwin = (els, siblings = []) => {
+      const childrenGenerator = (els, siblings = []) => {
         if (els.length === 0) {
           return [...siblings, { name: filename, path: path.join(rootPathName, el) }];
         }
@@ -28,11 +31,54 @@ module.exports.generateJsonTree = (rootPath, files) => {
           {
             name: els[0],
             path: fpath,
-            children: erwin(els.slice(1), newSiblings)
+            children: childrenGenerator(els.slice(1), newSiblings)
           }
         ];
       };
 
-      return erwin(parentDirDirs, result);
+      return childrenGenerator(parentDirDirs, result);
     }, [])[0];
+};
+
+module.exports.generateAsciiTree = (rootPath, files) => {
+  const jsonTree = module.exports.generateJsonTree(rootPath, files);
+
+  const childrenTree = (children, levels = 0, continuationPipeLevels = []) => {
+    if (children.length === 0) { return ''; }
+
+    let separator = '├──';
+    if (children.length === 1) { separator = '└──'; }
+
+    let levelsSpaces = '';
+    if (levels > 0) {
+      for (let i = 0; i < levels * 4; i += 1) levelsSpaces += ' ';
+
+      continuationPipeLevels.forEach(level => {
+        const idx = (level * 4);
+        levelsSpaces = levelsSpaces.substring(0, idx) + '│' + levelsSpaces.substring(idx + 1);
+      });
+    }
+
+    const name = children[0].name;
+    const childrensChildren = children[0].children || [];
+
+    const childrensChildrenTree = childrenTree(
+      childrensChildren,
+      levels + 1,
+      [
+        ...continuationPipeLevels,
+        ...((children.length > 1 && childrensChildren.length) ? [levels] : [])
+      ]
+    );
+
+    return (
+      `\n${levelsSpaces}${separator} ${name}` +
+      `${childrensChildrenTree}` +
+      `${childrenTree(children.slice(1), levels, continuationPipeLevels)}`
+    );
+  };
+
+  const result = `${jsonTree.name}${childrenTree(jsonTree.children)}`;
+
+  return result;
 };
