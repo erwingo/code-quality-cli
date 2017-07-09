@@ -18,12 +18,6 @@ module.exports.run = (rootPath, ignoreFolders = [], ignoreFiles = [], options = 
 
   folders = folders.filter(el => !ignoreFolders.some(el2 => el.indexOf(el2) === 0));
 
-  if (options.printTreeAnalyzed) {
-    console.log('FolderChecker Tree Structure Analyzed:\n');
-    console.log(srcHelpers.generateAsciiTree(rootPath, files));
-    console.log();
-  }
-
   // folders/filenames validations
 
   files.forEach(filenameChecker.validateFilename);
@@ -52,4 +46,10 @@ module.exports.run = (rootPath, ignoreFolders = [], ignoreFiles = [], options = 
 
   folders.filter(el => el.split('/').pop() === '_components')
     .forEach(componentChecker.validateUnderscoreComponentsFolder);
+
+  if (options.printTreeAnalyzed) {
+    console.log('FolderChecker Tree Structure Analyzed:\n');
+    console.log(srcHelpers.generateAsciiTree(rootPath, files));
+    console.log();
+  }
 };
