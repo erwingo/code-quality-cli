@@ -40,8 +40,6 @@ function getIgnoreFilesFolders(rootPath, namespace, options) {
     if (ignoreFolders) {
       ignoreFolders.push(ignoreFolders[0]);
       ignoreFoldersGlobPattern = `{${ignoreFolders.join(',')}}`;
-    } else {
-      ignoreFoldersGlobPattern = options.ignoreFolders;
     }
 
     const ignoreFiles = _.at(config, `${namespace}.ignoreFiles`)[0];
@@ -51,11 +49,16 @@ function getIgnoreFilesFolders(rootPath, namespace, options) {
       // so i make sure there are at least 2 items in array even if they are equal
       // it wont matter
       ignoreFiles.push(ignoreFiles[0]);
-
       ignoreFilesGlobPattern = `{${ignoreFiles.join(',')}}`;
-    } else {
-      ignoreFilesGlobPattern = options.ignoreFiles;
     }
+  }
+
+  if (options.ignoreFolders) {
+    ignoreFoldersGlobPattern = options.ignoreFolders;
+  }
+
+  if (options.ignoreFiles) {
+    ignoreFilesGlobPattern = options.ignoreFiles;
   }
 
   const ignoreFolders = [];
