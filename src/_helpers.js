@@ -78,7 +78,7 @@ module.exports.generateAsciiTree = (rootPath, files) => {
     );
   };
 
-  const result = `${jsonTree.name}${childrenTree(jsonTree.children)}`;
+  if (!jsonTree) { return null; }
 
-  return result;
+  return `${jsonTree.name}${childrenTree(jsonTree.children)}`;
 };

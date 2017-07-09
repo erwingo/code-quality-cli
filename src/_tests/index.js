@@ -114,6 +114,12 @@ describe('src helpers', () => {
   });
 
   describe('generateAsciiTree()', () => {
+    it('should return correct output for no files', () => {
+      const actual = helpers.generateAsciiTree('lul', []);
+      const expected = null;
+      assert.equal(actual, expected);
+    });
+
     it('should generate correct output for 0 levels', () => {
       const actual = helpers.generateAsciiTree(
         'lul',
